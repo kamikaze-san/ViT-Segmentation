@@ -1,0 +1,62 @@
+{
+ "args": {
+  "mode": "smoke",
+  "model_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+  "bs": 16,
+  "head_epochs": 4.0,
+  "epochs": 5,
+  "lr": 1e-05,
+  "head_lr": 0.0005,
+  "llrd": 0.9,
+  "wd": 0.04,
+  "k_dino": 4096,
+  "k_ibot": 4096,
+  "head_bn": 1,
+  "t_temp": 0.04,
+  "t_temp_final": 0.04,
+  "center": "softmax",
+  "gram_w": 1.0,
+  "koleo_w": 0.1,
+  "ema": 0.994,
+  "probe_tol": 0.01,
+  "min_cos": 0.8,
+  "workers": 4,
+  "time_steps": 12,
+  "tag": "vitb",
+  "resume": null,
+  "max_images": 1000
+ },
+ "steps_per_epoch": 62,
+ "head_steps": 248,
+ "epochs": [
+  {
+   "epoch": 1,
+   "step": 310,
+   "drift_cos": [
+    0.9999,
+    0.9997,
+    0.9995,
+    1.0
+   ],
+   "probe": [
+    0.2635,
+    [
+     0.0,
+     0.0,
+     0.6741,
+     0.3799
+    ]
+   ],
+   "checkpoint": null
+  }
+ ],
+ "stock_probe": [
+  0.2564,
+  [
+   0.0,
+   0.0,
+   0.6725,
+   0.3533
+  ]
+ ]
+}

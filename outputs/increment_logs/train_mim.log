@@ -1,0 +1,40 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+no uint8 cache - decoding JPEGs each epoch (18074 images)
+18074 unlabelled images (12568 train + 5506 competition test)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 10222.45it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 17608.05it/s]
+mask ratio 0.6 (block-wise) | bs 4 | 4519 steps/epoch | backbone 5.0e-05 LLRD 0.85
+ep  1 | loss 0.0745 | cos(pred,target) 0.9194 |   930s | lr 9.97e-04
+ep  2 | loss 0.0612 | cos(pred,target) 0.9364 |   913s | lr 9.89e-04
+ep  3 | loss 0.0492 | cos(pred,target) 0.9493 |   903s | lr 9.76e-04
+ep  4 | loss 0.0633 | cos(pred,target) 0.9208 |   877s | lr 9.57e-04
+ep  5 | loss 0.0612 | cos(pred,target) 0.9222 |   862s | lr 9.33e-04
+ep  6 | loss 0.0665 | cos(pred,target) 0.9152 |   865s | lr 9.05e-04
+ep  7 | loss 0.0643 | cos(pred,target) 0.9228 |   890s | lr 8.72e-04
+ep  8 | loss 0.0648 | cos(pred,target) 0.9268 |   866s | lr 8.35e-04
+ep  9 | loss 0.0603 | cos(pred,target) 0.9343 |   855s | lr 7.94e-04
+ep 10 | loss 0.0557 | cos(pred,target) 0.9408 |   858s | lr 7.50e-04
+  saved mim_dinov3_ep10.pt
+ep 11 | loss 0.0557 | cos(pred,target) 0.9415 |   900s | lr 7.03e-04
+ep 12 | loss 0.0541 | cos(pred,target) 0.9437 |   906s | lr 6.55e-04
+ep 13 | loss 0.0539 | cos(pred,target) 0.9440 |   894s | lr 6.04e-04
+ep 14 | loss 0.0505 | cos(pred,target) 0.9476 |   895s | lr 5.52e-04
+ep 15 | loss 0.0457 | cos(pred,target) 0.9526 |   893s | lr 5.00e-04
+ep 16 | loss 0.0431 | cos(pred,target) 0.9554 |   894s | lr 4.48e-04
+ep 17 | loss 0.0418 | cos(pred,target) 0.9567 |   895s | lr 3.96e-04
+ep 18 | loss 0.0411 | cos(pred,target) 0.9574 |   895s | lr 3.45e-04
+ep 19 | loss 0.0404 | cos(pred,target) 0.9580 |   894s | lr 2.97e-04
+ep 20 | loss 0.0388 | cos(pred,target) 0.9597 |   900s | lr 2.50e-04
+  saved mim_dinov3_ep20.pt
+ep 21 | loss 0.0374 | cos(pred,target) 0.9611 |   912s | lr 2.06e-04
+ep 22 | loss 0.0356 | cos(pred,target) 0.9631 |   908s | lr 1.65e-04
+ep 23 | loss 0.0340 | cos(pred,target) 0.9647 |   891s | lr 1.28e-04
+ep 24 | loss 0.0326 | cos(pred,target) 0.9662 |   895s | lr 9.55e-05
+ep 25 | loss 0.0314 | cos(pred,target) 0.9675 |   896s | lr 6.70e-05
+ep 26 | loss 0.0300 | cos(pred,target) 0.9689 |   888s | lr 4.32e-05
+ep 27 | loss 0.0292 | cos(pred,target) 0.9698 |   897s | lr 2.45e-05
+ep 28 | loss 0.0284 | cos(pred,target) 0.9707 |   904s | lr 1.09e-05
+ep 29 | loss 0.0281 | cos(pred,target) 0.9709 |   918s | lr 2.74e-06
+ep 30 | loss 0.0278 | cos(pred,target) 0.9712 |   911s | lr 0.00e+00
+  saved mim_dinov3_ep30.pt

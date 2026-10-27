@@ -1,0 +1,120 @@
+{
+ "holdout": {
+  "full": {
+   "dice": [
+    0.6738,
+    0.5881,
+    0.7682,
+    0.7454
+   ],
+   "dice_mean": 0.6939,
+   "kaggle": 0.9492,
+   "kaggle_per_class": [
+    0.9681,
+    0.9864,
+    0.8652,
+    0.9771
+   ],
+   "decisions_differ_from_full": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "decision_errors_vs_gt": [
+    8,
+    4,
+    21,
+    5
+   ]
+  },
+  "window": {
+   "dice": [
+    0.6075,
+    0.6138,
+    0.7498,
+    0.7404
+   ],
+   "dice_mean": 0.6779,
+   "kaggle": 0.94419,
+   "kaggle_per_class": [
+    0.9642,
+    0.9858,
+    0.8494,
+    0.9773
+   ],
+   "decisions_differ_from_full": [
+    2,
+    1,
+    17,
+    2
+   ],
+   "decision_errors_vs_gt": [
+    10,
+    5,
+    26,
+    5
+   ]
+  },
+  "window_nopos": {
+   "dice": [
+    0.5762,
+    0.5019,
+    0.7507,
+    0.7323
+   ],
+   "dice_mean": 0.6403,
+   "kaggle": 0.94192,
+   "kaggle_per_class": [
+    0.961,
+    0.981,
+    0.8497,
+    0.9759
+   ],
+   "decisions_differ_from_full": [
+    8,
+    5,
+    17,
+    1
+   ],
+   "decision_errors_vs_gt": [
+    12,
+    9,
+    24,
+    6
+   ]
+  }
+ },
+ "test": {
+  "positive_rate_full": [
+   4.78,
+   0.53,
+   35.67,
+   6.43
+  ],
+  "positive_rate_window": [
+   4.76,
+   0.56,
+   37.85,
+   6.32
+  ],
+  "disagreement_pct": [
+   3.11,
+   0.33,
+   7.01,
+   0.29
+  ],
+  "window_only_positive": [
+   85,
+   10,
+   253,
+   5
+  ],
+  "full_only_positive": [
+   86,
+   8,
+   133,
+   11
+  ]
+ }
+}

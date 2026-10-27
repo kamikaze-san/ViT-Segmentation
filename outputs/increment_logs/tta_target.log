@@ -1,0 +1,18 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0828 19:52:46.225000 26336 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+model: fullft_lr0.0001_g0.85_h1024_strongaug.pt   split: target
+
+TTA views     passes     rate  est. private
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5955.49it/s]
+    2000/5506
+    4000/5506
+none               1   15.67%       0.87609   <- baseline
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4451.75it/s]
+    2000/5506
+    4000/5506
+h,v                3   15.27%       0.87885   (-0.41 pts)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4150.32it/s]
+    2000/5506
+    4000/5506
+h,v,hv             4   15.12%       0.87987   (-0.56 pts)

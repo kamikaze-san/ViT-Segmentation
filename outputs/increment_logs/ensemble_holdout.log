@@ -1,0 +1,40 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0829 21:51:40.906000 15976 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+### caching strong16
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3742.86it/s]
+### caching 12k_ep16
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 7624.96it/s]
+### caching B9_mild
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 8176.26it/s]
+### caching B7_noaug
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 9586.93it/s]
+
+members                                       c1      c2      c3      c4  meanDice   KAGGLE
+-------------------------------------------------------------------------------------------
+strong16                                  0.6370  0.6410  0.7782  0.7648    0.7053  0.95099
+12k_ep16                                  0.6871  0.6329  0.7896  0.7424    0.7130  0.95037
+B9_mild                                   0.6305  0.6310  0.7618  0.7341    0.6894  0.94542
+B7_noaug                                  0.6112  0.6376  0.7730  0.7802    0.7005  0.94351
+-------------------------------------------------------------------------------------------
+strong16+12k_ep16                         0.6551  0.6486  0.7897  0.7672    0.7151  0.95267  <- beats best single
+strong16+B9_mild                          0.6389  0.6496  0.7745  0.7538    0.7042  0.94911
+strong16+B7_noaug                         0.6355  0.6350  0.7837  0.7792    0.7083  0.94843
+12k_ep16+B9_mild                          0.6576  0.6716  0.7824  0.7419    0.7134  0.94992
+12k_ep16+B7_noaug                         0.6638  0.6492  0.7897  0.7806    0.7208  0.94869
+B9_mild+B7_noaug                          0.6316  0.6473  0.7759  0.7669    0.7054  0.94642
+strong16+12k_ep16+B9_mild                 0.6545  0.6645  0.7833  0.7422    0.7111  0.95100  <- beats best single
+strong16+12k_ep16+B7_noaug                0.6526  0.6529  0.7898  0.7774    0.7182  0.95254  <- beats best single
+strong16+B9_mild+B7_noaug                 0.6474  0.6554  0.7796  0.7735    0.7140  0.94978
+12k_ep16+B9_mild+B7_noaug                 0.6528  0.6438  0.7850  0.7492    0.7077  0.94971
+strong16+12k_ep16+B9_mild+B7_noaug        0.6562  0.6598  0.7863  0.7698    0.7180  0.95177  <- beats best single
+
+PAIRWISE DISAGREEMENT on the empty/non-empty decision
+(fraction of the 4x N image-class pairs where the two models differ;
+ low disagreement => averaging them cannot help much)
+  strong16     vs 12k_ep16      0.90%
+  strong16     vs B9_mild       0.90%
+  strong16     vs B7_noaug      1.25%
+  12k_ep16     vs B9_mild       1.10%
+  12k_ep16     vs B7_noaug      1.25%
+  B9_mild      vs B7_noaug      1.05%

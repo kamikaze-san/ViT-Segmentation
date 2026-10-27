@@ -1,0 +1,40 @@
+{
+ "c1": {
+  "positives": 36,
+  "auc_dinov3": 0.9316,
+  "auc_cradio_h": 0.9246,
+  "auc_combined": 0.9343,
+  "rank_corr_on_negatives": 0.409,
+  "rank_corr_on_positives": 0.9
+ },
+ "c2": {
+  "positives": 11,
+  "auc_dinov3": 0.9883,
+  "auc_cradio_h": 0.9914,
+  "auc_combined": 0.993,
+  "rank_corr_on_negatives": 0.239,
+  "rank_corr_on_positives": 0.918
+ },
+ "c3": {
+  "positives": 204,
+  "auc_dinov3": 0.979,
+  "auc_cradio_h": 0.972,
+  "auc_combined": 0.9787,
+  "rank_corr_on_negatives": 0.754,
+  "rank_corr_on_positives": 0.909
+ },
+ "c4": {
+  "positives": 31,
+  "auc_dinov3": 0.9987,
+  "auc_cradio_h": 0.9981,
+  "auc_combined": 0.999,
+  "rank_corr_on_negatives": 0.326,
+  "rank_corr_on_positives": 0.88
+ },
+ "any": {
+  "auc_dinov3": 0.9647,
+  "auc_cradio_h": 0.9459,
+  "auc_combined": 0.9633,
+  "rank_corr_on_negatives": 0.415
+ }
+}

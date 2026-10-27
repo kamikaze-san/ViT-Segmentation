@@ -1,0 +1,30 @@
+{
+ "encoder": "qwen38",
+ "feature_dim": 4608,
+ "probe_cells": 181013,
+ "n_probe_train": 800,
+ "n_pool_train": 3000,
+ "n_holdout": 500,
+ "probe_dice_c1_c4": [
+  0.4261,
+  0.3659,
+  0.656,
+  0.6584
+ ],
+ "probe_mean_dice": 0.5266,
+ "presence_auc": {
+  "c1": 0.9159,
+  "c2": 0.9595,
+  "c3": 0.9697,
+  "c4": 0.9985
+ },
+ "presence_auc_any": 0.9566,
+ "holdout_positives": [
+  36,
+  11,
+  204,
+  31
+ ],
+ "minutes": 7.1,
+ "test_scored": 5506
+}

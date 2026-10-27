@@ -1,0 +1,22 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+Caching 'train': 8797 images -> C:\Users\NewGr\Downloads\ViT Project severstal\severstal\data\processed\spatial_cache/train_spatial.npy  (43.2 GB)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3695.95it/s]
+  500/8797
+  1000/8797
+  1500/8797
+  2000/8797
+  2500/8797
+  3000/8797
+  3500/8797
+  4000/8797
+  4500/8797
+  5000/8797
+  5500/8797
+  6000/8797
+  6500/8797
+  7000/8797
+  7500/8797
+  8000/8797
+  8500/8797
+Done: train, grid (16, 100), dim 1536

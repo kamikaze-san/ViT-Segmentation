@@ -1,0 +1,15 @@
+18074 images -> (18074, 256, 1600) uint8 = 6.9 GB
+  2000/18074
+  4000/18074
+  6000/18074
+  8000/18074
+  10000/18074
+  12000/18074
+  14000/18074
+  16000/18074
+  18000/18074
+
+wrote C:\Users\NewGr\Downloads\ViT Project severstal\severstal\data\processed\image_cache/images.npy (6.9 GB)
+  train_images 12568 | test_images 5506
+  non-grayscale images found: 0  (expected 0)
+  wrong-size images resized : 0  (expected 0)

@@ -1,0 +1,80 @@
+{
+ "solo": {
+  "reference": "solo_pseudo01",
+  "reference_pix": [
+   0.6,
+   0.6,
+   0.6,
+   0.45
+  ],
+  "min_area": [
+   1050,
+   2450,
+   1750,
+   5250
+  ],
+  "reference_rate_pct": [
+   4.25,
+   0.527,
+   34.617,
+   6.448
+  ],
+  "new_rate_at_reference_pix_pct": [
+   3.996,
+   0.472,
+   32.964,
+   6.357
+  ],
+  "matched_pix": [
+   0.51,
+   0.43,
+   0.44,
+   0.32
+  ],
+  "matched_rate_pct": [
+   4.232,
+   0.527,
+   34.653,
+   6.448
+  ]
+ },
+ "swap": {
+  "reference": "V79",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "new_rate_at_reference_pix_pct": [
+   3.814,
+   0.636,
+   32.692,
+   6.429
+  ],
+  "matched_pix": [
+   0.65,
+   0.6,
+   0.64,
+   0.6
+  ],
+  "matched_rate_pct": [
+   3.814,
+   0.636,
+   32.91,
+   6.411
+  ]
+ }
+}

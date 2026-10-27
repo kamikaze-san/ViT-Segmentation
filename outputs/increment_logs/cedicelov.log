@@ -1,0 +1,23 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0830 00:10:20.589000 22716 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 8860.35it/s]
+backbone trainable params: 21,596,544 (100% - full fine-tune)
+RESUMED backbone+head from fullft_lr0.0001_g0.85_h1024_12k_ep16.pt (val 0.7130)
+  augmentation matches the source run: 'strong'
+  NOTE: checkpoint has no optimizer state - AdamW moments restart from zero. Expect a transient dip over the first few hundred steps.
+train split 'train12k' 12068 | eval split 'holdout' 500 | no overlap
+class weights: [0.17, 1.367, 2.176, 0.494, 0.792]
+LLRD: 27 backbone groups, top 2.00e-05 -> block0 2.84e-06 (block2 tap 3.94e-06)
+epoch 0 (head as-loaded, backbone untouched) | val mean 0.7130
+ep  1 | loss 0.2576 |  1614s | val c1 0.6728 c2 0.6629 c3 0.7824 c4 0.7535 | mean 0.7179  <- best (saved)
+ep  2 | loss 0.2474 |  2160s | val c1 0.6857 c2 0.6839 c3 0.7859 c4 0.7457 | mean 0.7253  <- best (saved)
+ep  3 | loss 0.2422 |  2034s | val c1 0.6210 c2 0.6617 c3 0.7865 c4 0.7439 | mean 0.7033
+ep  4 | loss 0.2329 |  2089s | val c1 0.6595 c2 0.6829 c3 0.7895 c4 0.7385 | mean 0.7176
+ep  5 | loss 0.2242 |  2086s | val c1 0.6419 c2 0.6674 c3 0.7901 c4 0.7472 | mean 0.7116
+ep  6 | loss 0.2150 |  2083s | val c1 0.6683 c2 0.6221 c3 0.7874 c4 0.7540 | mean 0.7080
+ep  7 | loss 0.2066 |  1888s | val c1 0.6768 c2 0.6726 c3 0.7904 c4 0.7524 | mean 0.7230
+ep  8 | loss 0.2026 |  1941s | val c1 0.6767 c2 0.6472 c3 0.7907 c4 0.7528 | mean 0.7169
+
+BEST val mean Dice (c1-4): 0.7253
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/fullft_lr2e-05_g0.85_h1024_cedicelov.pt

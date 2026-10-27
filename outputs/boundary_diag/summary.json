@@ -1,0 +1,163 @@
+{
+ "model": "kaggle_bundle_vitb/model_vitb_lora_warm.pt",
+ "pix": [
+  0.6,
+  0.6,
+  0.6,
+  0.45
+ ],
+ "mina": [
+  1050,
+  2450,
+  1750,
+  5250
+ ],
+ "train": {
+  "images": 500,
+  "kaggle": 0.96356,
+  "loss_fp_pairs": 0.001,
+  "loss_fn_pairs": 0.0095,
+  "loss_mask_on_tp": 0.02594,
+  "per_class": {
+   "c1": {
+    "tp": 40,
+    "fp": 1,
+    "fn": 5,
+    "tp_dice_mean": 0.7658,
+    "area_ratio_median": 1.287,
+    "overshoot_share": 0.778,
+    "within_2px": 0.319,
+    "within_8px": 0.714
+   },
+   "c2": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 1,
+    "tp_dice_mean": 0.7797,
+    "area_ratio_median": 1.408,
+    "overshoot_share": 0.907,
+    "within_2px": 0.492,
+    "within_8px": 0.817
+   },
+   "c3": {
+    "tp": 196,
+    "fp": 1,
+    "fn": 11,
+    "tp_dice_mean": 0.8143,
+    "area_ratio_median": 1.159,
+    "overshoot_share": 0.719,
+    "within_2px": 0.277,
+    "within_8px": 0.642
+   },
+   "c4": {
+    "tp": 26,
+    "fp": 0,
+    "fn": 2,
+    "tp_dice_mean": 0.8072,
+    "area_ratio_median": 1.123,
+    "overshoot_share": 0.682,
+    "within_2px": 0.149,
+    "within_8px": 0.464
+   }
+  },
+  "tolerant_gain": {
+   "1": 0.00387,
+   "2": 0.00723,
+   "4": 0.0122,
+   "8": 0.01676
+  },
+  "morph": {
+   "-4": -0.00385,
+   "-3": -0.00031,
+   "-2": 0.00138,
+   "-1": 0.00135,
+   "1": -0.00223,
+   "2": -0.00485
+  },
+  "mask_thr": {
+   "0.3": -0.00523,
+   "0.35": -0.00407,
+   "0.4": -0.00289,
+   "0.45": -0.00197,
+   "0.5": -0.00123,
+   "0.55": -0.00057,
+   "0.6": 2e-05,
+   "0.65": 0.0006,
+   "0.7": 0.00074
+  }
+ },
+ "holdout": {
+  "images": 500,
+  "kaggle": 0.9513,
+  "loss_fp_pairs": 0.004,
+  "loss_fn_pairs": 0.015,
+  "loss_mask_on_tp": 0.0297,
+  "per_class": {
+   "c1": {
+    "tp": 27,
+    "fp": 0,
+    "fn": 9,
+    "tp_dice_mean": 0.7143,
+    "area_ratio_median": 1.294,
+    "overshoot_share": 0.7,
+    "within_2px": 0.324,
+    "within_8px": 0.748
+   },
+   "c2": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 5,
+    "tp_dice_mean": 0.6674,
+    "area_ratio_median": 1.574,
+    "overshoot_share": 0.763,
+    "within_2px": 0.265,
+    "within_8px": 0.573
+   },
+   "c3": {
+    "tp": 192,
+    "fp": 8,
+    "fn": 12,
+    "tp_dice_mean": 0.7741,
+    "area_ratio_median": 1.122,
+    "overshoot_share": 0.603,
+    "within_2px": 0.214,
+    "within_8px": 0.543
+   },
+   "c4": {
+    "tp": 27,
+    "fp": 0,
+    "fn": 4,
+    "tp_dice_mean": 0.7659,
+    "area_ratio_median": 1.332,
+    "overshoot_share": 0.764,
+    "within_2px": 0.125,
+    "within_8px": 0.422
+   }
+  },
+  "tolerant_gain": {
+   "1": 0.00344,
+   "2": 0.00646,
+   "4": 0.01114,
+   "8": 0.01651
+  },
+  "morph": {
+   "-4": -0.0051,
+   "-3": -0.00185,
+   "-2": 5e-05,
+   "-1": 0.00057,
+   "1": -0.00133,
+   "2": -0.00312
+  },
+  "mask_thr": {
+   "0.3": -0.00305,
+   "0.35": -0.0022,
+   "0.4": -0.00143,
+   "0.45": -0.00088,
+   "0.5": -0.00041,
+   "0.55": -7e-05,
+   "0.6": 0.0001,
+   "0.65": 0.00016,
+   "0.7": 0.0001
+  }
+ }
+}

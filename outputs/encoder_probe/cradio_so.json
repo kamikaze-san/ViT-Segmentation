@@ -1,0 +1,30 @@
+{
+ "encoder": "cradio_so",
+ "feature_dim": 4608,
+ "probe_cells": 181013,
+ "n_probe_train": 800,
+ "n_pool_train": 3000,
+ "n_holdout": 500,
+ "probe_dice_c1_c4": [
+  0.466,
+  0.5445,
+  0.6791,
+  0.6756
+ ],
+ "probe_mean_dice": 0.5913,
+ "presence_auc": {
+  "c1": 0.9291,
+  "c2": 0.9898,
+  "c3": 0.9764,
+  "c4": 0.9959
+ },
+ "presence_auc_any": 0.9573,
+ "holdout_positives": [
+  36,
+  11,
+  204,
+  31
+ ],
+ "minutes": 6.4,
+ "test_scored": 5506
+}

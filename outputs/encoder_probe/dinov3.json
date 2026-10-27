@@ -1,0 +1,30 @@
+{
+ "encoder": "dinov3",
+ "feature_dim": 3072,
+ "probe_cells": 181013,
+ "n_probe_train": 800,
+ "n_pool_train": 3000,
+ "n_holdout": 500,
+ "probe_dice_c1_c4": [
+  0.418,
+  0.5145,
+  0.6475,
+  0.6933
+ ],
+ "probe_mean_dice": 0.5683,
+ "presence_auc": {
+  "c1": 0.9046,
+  "c2": 0.9931,
+  "c3": 0.9701,
+  "c4": 0.9991
+ },
+ "presence_auc_any": 0.9487,
+ "holdout_positives": [
+  36,
+  11,
+  204,
+  31
+ ],
+ "minutes": 2.3,
+ "test_scored": 5506
+}

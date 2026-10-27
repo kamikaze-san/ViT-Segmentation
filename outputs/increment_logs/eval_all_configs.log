@@ -1,0 +1,63 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0827 00:19:55.295000 29644 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+
+### B4_conv_subpatch_dice  (spatial_conv_up4_wp0.3_dice1.0_C.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 10027.06it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 7780.89it/s]
+  val-chosen min_area=1600 (val kaggle 0.9392) | test mean 0.6605 (filtered 0.6545) | test kaggle 0.9235 -> 0.9390
+
+### B5_frozen_wide_head  (spatial_conv_up4_h1024_wp0.3_dice1.0_ep30.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4923.66it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 10041.62it/s]
+  val-chosen min_area=1600 (val kaggle 0.9440) | test mean 0.6857 (filtered 0.6794) | test kaggle 0.9312 -> 0.9424
+
+### B6_lora_r16  (lora_r16_h1024_wp0.3_full.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 2514.99it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 8347.70it/s]
+  val-chosen min_area=1600 (val kaggle 0.9485) | test mean 0.6979 (filtered 0.6904) | test kaggle 0.9443 -> 0.9474
+
+### B7_fullft_lr1e-5  (fullft_lr1e-05_g0.85_h1024_b.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 8501.26it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 9184.48it/s]
+  val-chosen min_area=800 (val kaggle 0.9503) | test mean 0.7038 (filtered 0.7025) | test kaggle 0.9459 -> 0.9506
+
+### B7_fullft_lr5e-5  (fullft_lr5e-05_g0.85_h1024_a.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3255.49it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4462.63it/s]
+  val-chosen min_area=1600 (val kaggle 0.9518) | test mean 0.7139 (filtered 0.7051) | test kaggle 0.9483 -> 0.9508
+
+### B7_fullft_lr1e-4  (fullft_lr0.0001_g0.85_h1024_c.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4981.11it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3250.66it/s]
+  val-chosen min_area=800 (val kaggle 0.9521) | test mean 0.7179 (filtered 0.7181) | test kaggle 0.9487 -> 0.9526
+
+### B8_fullft_aug_5e-5  (fullft_lr5e-05_g0.85_h1024_aug.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 6492.25it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3053.75it/s]
+  val-chosen min_area=1600 (val kaggle 0.9520) | test mean 0.7161 (filtered 0.7093) | test kaggle 0.9517 -> 0.9529
+
+### B9_fullft_aug_1e-4  (fullft_lr0.0001_g0.85_h1024_aug1e4.pt)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5188.96it/s]
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 4675.01it/s]
+  val-chosen min_area=800 (val kaggle 0.9536) | test mean 0.7104 (filtered 0.7110) | test kaggle 0.9510 -> 0.9532
+
+
+========================================================================================================
+TEST SPLIT - per-class Dice (global accumulation) and the Kaggle metric
+========================================================================================================
+ALL per-class Dice below are UNFILTERED (min_area=0). The filter is reported
+separately so it can never be silently mixed into a per-class number.
+
+config                        c1      c2      c3      c4   mean1-4    mean*   kaggle@0   kaggle*  min_area
+--------------------------------------------------------------------------------------------------------
+B4_conv_subpatch_dice     0.5683  0.5536  0.7461  0.7740    0.6605   0.6545     0.9235    0.9390      1600
+B5_frozen_wide_head       0.5955  0.6041  0.7643  0.7789    0.6857   0.6794     0.9312    0.9424      1600
+B6_lora_r16               0.6183  0.6174  0.7754  0.7807    0.6979   0.6904     0.9443    0.9474      1600
+B7_fullft_lr1e-5          0.6222  0.6184  0.7838  0.7907    0.7038   0.7025     0.9459    0.9506       800
+B9_fullft_aug_1e-4        0.6212  0.6281  0.7961  0.7960    0.7104   0.7110     0.9510    0.9532       800
+B7_fullft_lr5e-5          0.6215  0.6388  0.7952  0.7999    0.7139   0.7051     0.9483    0.9508      1600
+B8_fullft_aug_5e-5        0.6372  0.6314  0.7956  0.8000    0.7161   0.7093     0.9517    0.9529      1600
+B7_fullft_lr1e-4          0.6090  0.6596  0.7934  0.8096    0.7179   0.7181     0.9487    0.9526       800
+--------------------------------------------------------------------------------------------------------
+mean* / kaggle* = at the min_area chosen on VAL for that config (never on test)

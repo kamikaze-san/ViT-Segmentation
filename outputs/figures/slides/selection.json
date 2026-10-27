@@ -1,0 +1,40 @@
+{
+ "random": [
+  "402e39bda",
+  "7c7883593",
+  "d8d851749",
+  "a17aa65b7"
+ ],
+ "curated": [
+  [
+   "51d092947",
+   "clean hit, class 1 (Dice >= 0.8, median-sized of 9)"
+  ],
+  [
+   "6f96a0814",
+   "clean hit, class 2 (Dice >= 0.8, median-sized of 1)"
+  ],
+  [
+   "4c3afd528",
+   "clean hit, class 3 (Dice >= 0.8, median-sized of 114)"
+  ],
+  [
+   "51097aa45",
+   "clean hit, class 4 (Dice >= 0.8, median-sized of 15)"
+  ],
+  [
+   "a835a0e50",
+   "mask-shape error: class 3 detected, predicted area > 1.4x labelled"
+  ],
+  [
+   "154e7e802",
+   "false alarm: first of 10 holdout strips with a fired class that has no label"
+  ],
+  [
+   "0429258ad",
+   "missed defect: first of 31 holdout strips with a labelled class not predicted"
+  ]
+ ],
+ "n_false_alarm_strips": 10,
+ "n_missed_strips": 31
+}

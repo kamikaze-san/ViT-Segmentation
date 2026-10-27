@@ -1,0 +1,12 @@
+head=mlp upscale=1 -> output stride 16px, wp=0.75 dice=0.0
+train (2000, 1600, 1536), val (1885, 1600, 1536), labels at (16, 100)
+class weights: [0.009, 1.176, 3.356, 0.104, 0.355]
+trainable params: 394,757
+ep  1 | loss 0.6394 | val c1 0.0881 c2 0.0912 c3 0.4858 c4 0.4142 | mean 0.2698  <- best
+ep  2 | loss 0.3932 | val c1 0.1579 c2 0.0591 c3 0.4790 c4 0.4140 | mean 0.2775  <- best
+ep  3 | loss 0.3195 | val c1 0.1728 c2 0.1069 c3 0.5035 c4 0.4159 | mean 0.2998  <- best
+ep  4 | loss 0.2844 | val c1 0.2089 c2 0.0854 c3 0.5551 c4 0.5244 | mean 0.3434  <- best
+ep  5 | loss 0.2683 | val c1 0.1972 c2 0.0925 c3 0.5113 c4 0.5214 | mean 0.3306
+
+BEST val mean Dice (c1-4): 0.3434
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/spatial_mlp_up1_wp0.75_dice0.0_cal0.75.pt

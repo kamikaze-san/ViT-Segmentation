@@ -1,0 +1,21 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0829 18:12:10.479000 25912 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5430.17it/s]
+backbone trainable params: 0 (100% - full fine-tune)
+head randomly initialised (true probe - no LP-FT warm start)
+train split 'train' 8797 | eval split 'val' 1885 | no overlap
+class weights: [0.17, 1.366, 2.178, 0.494, 0.792]
+FROZEN BACKBONE - training the head only (linear-probe comparison)
+epoch 0 (head as-loaded, backbone untouched) | val mean 0.0154
+ep  1 | loss 0.5242 |   511s | val c1 0.4824 c2 0.0000 c3 0.7111 c4 0.7568 | mean 0.4876  <- best (saved)
+ep  2 | loss 0.3431 |   479s | val c1 0.4029 c2 0.3563 c3 0.7166 c4 0.7521 | mean 0.5570  <- best (saved)
+ep  3 | loss 0.3051 |   471s | val c1 0.4969 c2 0.5246 c3 0.7027 c4 0.6596 | mean 0.5960  <- best (saved)
+ep  4 | loss 0.2695 |   462s | val c1 0.5430 c2 0.5307 c3 0.7404 c4 0.7593 | mean 0.6434  <- best (saved)
+ep  5 | loss 0.2447 |   471s | val c1 0.4942 c2 0.2552 c3 0.7443 c4 0.7730 | mean 0.5667
+ep  6 | loss 0.2241 |   467s | val c1 0.5592 c2 0.5720 c3 0.7364 c4 0.7692 | mean 0.6592  <- best (saved)
+ep  7 | loss 0.2031 |   449s | val c1 0.5810 c2 0.5994 c3 0.7485 c4 0.7765 | mean 0.6763  <- best (saved)
+ep  8 | loss 0.1908 |   443s | val c1 0.5729 c2 0.5814 c3 0.7448 c4 0.7708 | mean 0.6675
+
+BEST val mean Dice (c1-4): 0.6763
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/fullft_lr5e-05_g0.85_h1024_probe_stock.pt

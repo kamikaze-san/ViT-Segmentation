@@ -1,0 +1,30 @@
+# Large or regenerable: the raw competition data lives outside this repo (download with the Kaggle CLI),
+# encoder weights come from Hugging Face, checkpoints and bundles are rebuilt by training.
+data/processed/images/
+data/processed/pseudo_self_vits_masks/
+outputs/checkpoints/
+outputs/kaggle_bundle*/
+outputs/ensemble/
+outputs/pseudo/
+outputs/pseudo_self_vits/
+outputs/presence/
+outputs/logs/
+outputs/results_pre_*.json
+external/
+backups/
+
+# binary arrays and weights anywhere under outputs
+outputs/**/*.npy
+outputs/**/*.npz
+outputs/**/*.pt
+outputs/**/*.pth
+outputs/**/*.tar
+outputs/**/*.safetensors
+
+__pycache__/
+*.pyc
+.cache/
+.ipynb_checkpoints/
+
+# early LightlyTrain/EoMT split copies (rebuild with src/prepare_split_dirs.py if ever needed)
+data/processed/masks_split/

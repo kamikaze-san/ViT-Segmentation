@@ -1,0 +1,38 @@
+{"id": "6b463443e.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 8.3}
+{"id": "de3037e2a.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "3116edfe6.jpg", "label_px": 3029, "seg_px": 0, "final_px": 8866, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[0, 0, 553.0, 1000.0]], "calls": 8, "passes": 3, "sec": 30.1}
+{"id": "a890f04af.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [[0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 58.4}
+{"id": "bf3d21ec7.jpg", "label_px": 9894, "seg_px": 0, "final_px": 35365, "dice_seg": 0.0, "dice_final": 0.43531673258357456, "boxes": [[257.0, 180.0, 287.0, 990.0], [317.0, 290.0, 350.0, 990.0], [355.0, 630.0, 375.0, 780.0], [748.0, 0, 770.0, 350.0], [745.0, 340.0, 750.0, 370.0], [765.0, 620.0, 770.0, 650.0]], "calls": 8, "passes": 3, "sec": 78.6}
+{"id": "2012a6d02.jpg", "label_px": 931, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.7}
+{"id": "c0cab7860.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [[440.0, 0, 590.0, 1000.0]], "calls": 8, "passes": 3, "sec": 33.9}
+{"id": "67741aee6.jpg", "label_px": 19604, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "930391b64.jpg", "label_px": 26331, "seg_px": 17369, "final_px": 20991, "dice_seg": 0.5409610983981693, "dice_final": 0.502514686615105, "boxes": [[658.0, 0, 700.0, 1000.0]], "calls": 8, "passes": 3, "sec": 34.9}
+{"id": "5b0da4889.jpg", "label_px": 123906, "seg_px": 198, "final_px": 269, "dice_seg": 0.001015277509185844, "dice_final": 0.002158244413126636, "boxes": [[0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 39.9}
+{"id": "5b73c33d7.jpg", "label_px": 8297, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 73.3}
+{"id": "6cba5b38a.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [[338.0, 240.0, 370.0, 740.0]], "calls": 8, "passes": 3, "sec": 88.4}
+{"id": "bcda255e8.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.4}
+{"id": "14fb9778c.jpg", "label_px": 10738, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "1ab604624.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "434a1180c.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "461f83c57.jpg", "label_px": 2332, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "43d7e6da0.jpg", "label_px": 29847, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[343.0, 0, 528.0, 1000.0], [543.0, 0, 708.0, 1000.0], [690.0, 0, 800.0, 1000.0], [800.0, 0, 900.0, 1000.0], [900.0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 54.0}
+{"id": "0a76ac9b8.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [[228.0, 100.0, 370.0, 800.0]], "calls": 8, "passes": 3, "sec": 31.3}
+{"id": "d5e8af85b.jpg", "label_px": 4635, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[418.0, 0, 588.0, 1000.0]], "calls": 8, "passes": 3, "sec": 63.1}
+{"id": "35d245aa8.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "1d895ec3d.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "df997913a.jpg", "label_px": 0, "seg_px": 0, "final_px": 0, "dice_seg": 1.0, "dice_final": 1.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "7c0745f39.jpg", "label_px": 8342, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.3}
+{"id": "be04fa57f.jpg", "label_px": 4599, "seg_px": 10845, "final_px": 10845, "dice_seg": 0.2580937580937581, "dice_final": 0.2580937580937581, "boxes": [[650.0, 0, 700.0, 750.0]], "calls": 8, "passes": 3, "sec": 29.7}
+{"id": "0429258ad.jpg", "label_px": 1412, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "ad9ad21f4.jpg", "label_px": 7181, "seg_px": 4652, "final_px": 11791, "dice_seg": 0.6463280655793121, "dice_final": 0.7521610794855577, "boxes": [[555.0, 0, 645.0, 256.0]], "calls": 8, "passes": 3, "sec": 31.8}
+{"id": "a41ba727f.jpg", "label_px": 2494, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "b1b94f0fc.jpg", "label_px": 2259, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "2731f7830.jpg", "label_px": 41024, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[267.0, 12.0, 348.0, 325.0], [260.0, 590.0, 340.0, 960.0], [145.0, 800.0, 185.0, 980.0], [165.0, 400.0, 198.0, 560.0], [512.0, 0, 562.0, 980.0]], "calls": 8, "passes": 3, "sec": 108.5}
+{"id": "ee44ebd2f.jpg", "label_px": 34022, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[172.0, 0, 330.0, 875.0], [376.0, 562.0, 430.0, 830.0]], "calls": 8, "passes": 3, "sec": 40.7}
+{"id": "26272c2a7.jpg", "label_px": 96406, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 30.5}
+{"id": "de85c63cb.jpg", "label_px": 47364, "seg_px": 409600, "final_px": 409600, "dice_seg": 0.20729860557943294, "dice_final": 0.20729860557943294, "boxes": [[0, 0, 1000.0, 1000.0]], "calls": 8, "passes": 3, "sec": 37.6}
+{"id": "2770fe933.jpg", "label_px": 14260, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [[285.0, 0, 418.0, 700.0]], "calls": 8, "passes": 3, "sec": 37.6}
+{"id": "6b8b5c4a5.jpg", "label_px": 1613, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.1}
+{"id": "d6d2ca6e1.jpg", "label_px": 14484, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "c83361e9d.jpg", "label_px": 2657, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}
+{"id": "1ffe887dd.jpg", "label_px": 8433, "seg_px": 0, "final_px": 0, "dice_seg": 0.0, "dice_final": 0.0, "boxes": [], "calls": 1, "passes": 0, "sec": 3.2}

@@ -1,0 +1,8 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+Caching 'test': 1886 images -> C:\Users\NewGr\Downloads\ViT Project severstal\severstal\data\processed\spatial_cache/test_spatial.npy  (9.3 GB)
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 6452.45it/s]
+  500/1886
+  1000/1886
+  1500/1886
+Done: test, grid (16, 100), dim 1536

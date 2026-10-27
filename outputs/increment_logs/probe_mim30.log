@@ -1,0 +1,22 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0829 19:19:35.236000 28712 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 2464.14it/s]
+backbone loaded from mim_dinov3_ep30.pt (MIM epoch 30, cos 0.9712268567554823)
+backbone trainable params: 0 (100% - full fine-tune)
+head randomly initialised (true probe - no LP-FT warm start)
+train split 'train' 8797 | eval split 'val' 1885 | no overlap
+class weights: [0.17, 1.366, 2.178, 0.494, 0.792]
+FROZEN BACKBONE - training the head only (linear-probe comparison)
+epoch 0 (head as-loaded, backbone untouched) | val mean 0.0128
+ep  1 | loss 0.6856 |   480s | val c1 0.3400 c2 0.0000 c3 0.6294 c4 0.5570 | mean 0.3816  <- best (saved)
+ep  2 | loss 0.4860 |   457s | val c1 0.3290 c2 0.2293 c3 0.6588 c4 0.6109 | mean 0.4570  <- best (saved)
+ep  3 | loss 0.4143 |   367s | val c1 0.3901 c2 0.3704 c3 0.6693 c4 0.5662 | mean 0.4990  <- best (saved)
+ep  4 | loss 0.3760 |   416s | val c1 0.4705 c2 0.2644 c3 0.7068 c4 0.6638 | mean 0.5264  <- best (saved)
+ep  5 | loss 0.3464 |   486s | val c1 0.4076 c2 0.2644 c3 0.7026 c4 0.6295 | mean 0.5010
+ep  6 | loss 0.3185 |   470s | val c1 0.5199 c2 0.4742 c3 0.7099 c4 0.6819 | mean 0.5965  <- best (saved)
+ep  7 | loss 0.2931 |   437s | val c1 0.5313 c2 0.5007 c3 0.7204 c4 0.6869 | mean 0.6098  <- best (saved)
+ep  8 | loss 0.2778 |   461s | val c1 0.5328 c2 0.5015 c3 0.7209 c4 0.6881 | mean 0.6108  <- best (saved)
+
+BEST val mean Dice (c1-4): 0.6108
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/fullft_lr5e-05_g0.85_h1024_probe_mim30.pt

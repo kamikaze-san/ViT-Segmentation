@@ -1,0 +1,19 @@
+head=conv upscale=1 -> output stride 16px, wp=0.3 dice=0.0
+train (8797, 1600, 1536), val (1885, 1600, 1536), labels at (16, 100)
+class weights: [0.194, 1.314, 2.116, 0.524, 0.852]
+trainable params: 984,837
+ep  1 | loss 0.1586 | val c1 0.4232 c2 0.4649 c3 0.7375 c4 0.7243 | mean 0.5875  <- best
+ep  2 | loss 0.1052 | val c1 0.4881 c2 0.5361 c3 0.7021 c4 0.8011 | mean 0.6319  <- best
+ep  3 | loss 0.0944 | val c1 0.4647 c2 0.5646 c3 0.7705 c4 0.7293 | mean 0.6323  <- best
+ep  4 | loss 0.0857 | val c1 0.6146 c2 0.6687 c3 0.7778 c4 0.7563 | mean 0.7044  <- best
+ep  5 | loss 0.0786 | val c1 0.6243 c2 0.6855 c3 0.7685 c4 0.8097 | mean 0.7220  <- best
+ep  6 | loss 0.0736 | val c1 0.5212 c2 0.6539 c3 0.7800 c4 0.7843 | mean 0.6848
+ep  7 | loss 0.0685 | val c1 0.6253 c2 0.6860 c3 0.7859 c4 0.7371 | mean 0.7086
+ep  8 | loss 0.0640 | val c1 0.5897 c2 0.6901 c3 0.7946 c4 0.7919 | mean 0.7166
+ep  9 | loss 0.0601 | val c1 0.6215 c2 0.6931 c3 0.7927 c4 0.7922 | mean 0.7249  <- best
+ep 10 | loss 0.0567 | val c1 0.6333 c2 0.7034 c3 0.7777 c4 0.7929 | mean 0.7268  <- best
+ep 11 | loss 0.0543 | val c1 0.6224 c2 0.7097 c3 0.7865 c4 0.7913 | mean 0.7275  <- best
+ep 12 | loss 0.0531 | val c1 0.6342 c2 0.7068 c3 0.7928 c4 0.8019 | mean 0.7339  <- best
+
+BEST val mean Dice (c1-4): 0.7339
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/spatial_conv_up1_wp0.3_dice0.0_A2.pt

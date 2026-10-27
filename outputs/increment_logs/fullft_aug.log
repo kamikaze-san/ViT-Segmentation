@@ -1,0 +1,28 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0826 11:40:53.857000 50740 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5413.73it/s]
+backbone trainable params: 21,596,544 (100% - full fine-tune)
+head initialised from spatial_conv_up4_h1024_wp0.3_dice1.0_ep30.pt (val 0.7135393367528631)
+class weights: [0.17, 1.366, 2.178, 0.494, 0.792]
+LLRD: 27 backbone groups, top 5.00e-05 -> block0 7.11e-06 (block2 tap 9.84e-06)
+epoch 0 (head as-loaded, backbone untouched) | val mean 0.6929
+ep  1 | loss 0.2798 |   634s | val c1 0.5660 c2 0.4415 c3 0.7580 c4 0.8003 | mean 0.6414  <- best
+ep  2 | loss 0.2246 |   715s | val c1 0.6023 c2 0.5889 c3 0.7461 c4 0.7988 | mean 0.6840  <- best
+ep  3 | loss 0.1961 |   741s | val c1 0.5773 c2 0.5587 c3 0.7628 c4 0.7509 | mean 0.6624
+ep  4 | loss 0.1787 |   737s | val c1 0.5280 c2 0.5455 c3 0.7708 c4 0.7482 | mean 0.6481
+ep  5 | loss 0.1612 |   839s | val c1 0.6242 c2 0.5982 c3 0.7722 c4 0.8090 | mean 0.7009  <- best
+ep  6 | loss 0.1509 |   930s | val c1 0.6220 c2 0.6226 c3 0.7780 c4 0.8084 | mean 0.7077  <- best
+ep  7 | loss 0.1338 |   931s | val c1 0.6406 c2 0.6362 c3 0.7815 c4 0.8024 | mean 0.7152  <- best
+ep  8 | loss 0.1202 |   985s | val c1 0.6345 c2 0.6435 c3 0.7860 c4 0.8083 | mean 0.7181  <- best
+ep  9 | loss 0.1107 |   960s | val c1 0.6429 c2 0.6281 c3 0.7855 c4 0.8129 | mean 0.7174
+ep 10 | loss 0.1017 |   936s | val c1 0.6405 c2 0.6425 c3 0.7876 c4 0.8076 | mean 0.7195  <- best
+ep 11 | loss 0.0945 |   935s | val c1 0.6368 c2 0.6139 c3 0.7905 c4 0.8196 | mean 0.7152
+ep 12 | loss 0.0870 |   868s | val c1 0.6396 c2 0.6356 c3 0.7887 c4 0.8178 | mean 0.7204  <- best
+ep 13 | loss 0.0828 |   794s | val c1 0.6369 c2 0.6311 c3 0.7884 c4 0.8163 | mean 0.7182
+ep 14 | loss 0.0785 |   725s | val c1 0.6393 c2 0.6249 c3 0.7883 c4 0.8126 | mean 0.7163
+ep 15 | loss 0.0764 |   643s | val c1 0.6419 c2 0.6232 c3 0.7897 c4 0.8141 | mean 0.7172
+ep 16 | loss 0.0755 |   742s | val c1 0.6433 c2 0.6246 c3 0.7902 c4 0.8148 | mean 0.7182
+
+BEST val mean Dice (c1-4): 0.7204
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/fullft_lr5e-05_g0.85_h1024_aug.pt

@@ -1,0 +1,21 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0828 05:55:28.457000 33780 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 6394.86it/s]
+backbone loaded (missing=0, unexpected=0)
+checkpoint val (bf16, from training): 0.7361
+evaluating 'test' in fp32
+
+  400/1886
+  800/1886
+  1200/1886
+  1600/1886
+
+Dice per class (test):
+    background: 0.9929
+      defect_1: 0.6402
+      defect_2: 0.6816
+      defect_3: 0.7965
+      defect_4: 0.8179
+
+  Mean Dice (classes 1-4): 0.7340

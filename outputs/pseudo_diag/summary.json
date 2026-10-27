@@ -1,0 +1,168 @@
+{
+ "holdout": {
+  "V79": {
+   "at_tuned": 0.95406,
+   "at_tuned_per_class": [
+    0.9698,
+    0.9885,
+    0.8781,
+    0.9799
+   ],
+   "own_best": 0.95572,
+   "best_pix": [
+    0.5,
+    0.4000000059604645,
+    0.550000011920929,
+    0.550000011920929
+   ],
+   "best_mina": [
+    210,
+    0,
+    210,
+    0
+   ],
+   "best_per_class": [
+    0.9712,
+    0.9917,
+    0.88,
+    0.9799
+   ]
+  },
+  "V82": {
+   "at_tuned": 0.95382,
+   "at_tuned_per_class": [
+    0.9687,
+    0.9888,
+    0.8791,
+    0.9788
+   ],
+   "own_best": 0.95607,
+   "best_pix": [
+    0.44999998807907104,
+    0.4000000059604645,
+    0.6499999761581421,
+    0.550000011920929
+   ],
+   "best_mina": [
+    0,
+    0,
+    630,
+    0
+   ],
+   "best_per_class": [
+    0.9717,
+    0.9914,
+    0.8813,
+    0.9799
+   ]
+  },
+  "V83": {
+   "at_tuned": 0.95393,
+   "at_tuned_per_class": [
+    0.9687,
+    0.9886,
+    0.8798,
+    0.9786
+   ],
+   "own_best": 0.9561,
+   "best_pix": [
+    0.44999998807907104,
+    0.4000000059604645,
+    0.5799999833106995,
+    0.44999998807907104
+   ],
+   "best_mina": [
+    0,
+    0,
+    210,
+    1260
+   ],
+   "best_per_class": [
+    0.9718,
+    0.9912,
+    0.8818,
+    0.9796
+   ]
+  }
+ },
+ "test": {
+  "NOT pseudo-labelled": {
+   "n_images": 2104,
+   "V79": {
+    "mean_pairwise_disagreement": 8.588,
+    "unanimous_pct": 82.16,
+    "ensemble_positive_rate": [
+     7.22,
+     1.33,
+     20.58,
+     7.08
+    ]
+   },
+   "V82": {
+    "mean_pairwise_disagreement": 8.158,
+    "unanimous_pct": 82.96,
+    "ensemble_positive_rate": [
+     7.32,
+     1.33,
+     21.86,
+     7.13
+    ]
+   },
+   "V83": {
+    "mean_pairwise_disagreement": 7.78,
+    "unanimous_pct": 83.65,
+    "ensemble_positive_rate": [
+     7.6,
+     1.47,
+     22.43,
+     7.08
+    ]
+   },
+   "pseudo_vs_own_original": {
+    "vits_r16_pseudo": 4.48,
+    "bce16_pseudo": 5.668
+   },
+   "between_originals_vits_bce": 7.082,
+   "between_pseudo_vits_bce": 5.038
+  },
+  "pseudo-labelled (memorised)": {
+   "n_images": 3402,
+   "V79": {
+    "mean_pairwise_disagreement": 0.301,
+    "unanimous_pct": 99.32,
+    "ensemble_positive_rate": [
+     1.65,
+     0.29,
+     40.77,
+     6.0
+    ]
+   },
+   "V82": {
+    "mean_pairwise_disagreement": 0.294,
+    "unanimous_pct": 99.35,
+    "ensemble_positive_rate": [
+     1.65,
+     0.29,
+     40.71,
+     6.0
+    ]
+   },
+   "V83": {
+    "mean_pairwise_disagreement": 0.279,
+    "unanimous_pct": 99.38,
+    "ensemble_positive_rate": [
+     1.65,
+     0.29,
+     40.74,
+     6.0
+    ]
+   },
+   "pseudo_vs_own_original": {
+    "vits_r16_pseudo": 0.191,
+    "bce16_pseudo": 0.184
+   },
+   "between_originals_vits_bce": 0.22,
+   "between_pseudo_vits_bce": 0.184
+  }
+ }
+}

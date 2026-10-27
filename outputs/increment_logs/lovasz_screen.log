@@ -1,0 +1,24 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0830 04:37:48.559000 32244 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+reference (submitted models):
+    B7 unaug 1e-4    18.4%   private 0.85750
+    B8 aug 5e-5      16.9%   private 0.86798
+    B9 aug 1e-4      16.3%   private 0.87237
+    train.csv rate   14.1%   <- approaching this from above is the goal
+
+### fullft_lr2e-05_g0.85_h1024_lovasz_ep4.pt
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 3307.79it/s]
+    1000/5506
+    2000/5506
+    3000/5506
+    4000/5506
+    5000/5506
+  images 5506 | pairs 22024 | non-empty 4368 (19.8%)
+  per class: c1=11.4%  c2=4.7%  c3=54.4%  c4=8.9%
+  excess over train rate: +5.7 pts | closest submitted: 18.4% -> 0.85750
+
+### fullft_lr2e-05_g0.85_h1024_lovasz_ep6.pt
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 6319.47it/s]
+    1000/5506
+    2000/5506

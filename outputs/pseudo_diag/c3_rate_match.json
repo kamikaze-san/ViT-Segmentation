@@ -1,0 +1,76 @@
+{
+ "rates_at_tuned": {
+  "V79": {
+   "all": [
+    3.83,
+    0.62,
+    32.98,
+    6.39
+   ],
+   "non_pseudo": [
+    7.37,
+    1.14,
+    20.44,
+    7.03
+   ]
+  },
+  "V82": {
+   "all": [
+    3.8,
+    0.69,
+    33.56,
+    6.39
+   ],
+   "non_pseudo": [
+    7.27,
+    1.33,
+    21.91,
+    7.03
+   ]
+  },
+  "V83": {
+   "all": [
+    3.87,
+    0.74,
+    33.96,
+    6.41
+   ],
+   "non_pseudo": [
+    7.46,
+    1.47,
+    22.96,
+    7.08
+   ]
+  }
+ },
+ "match": {
+  "V82": {
+   "c3_min_area": 1260,
+   "c3_rate_before": 33.56,
+   "c3_rate_after": 32.96,
+   "c3_decisions_differ_from_V79_before": 84,
+   "c3_decisions_differ_from_V79_after": 87,
+   "after_only_this_ens_positive": 43,
+   "after_only_V79_positive": 44,
+   "non_pseudo_c3_rate_after": 20.44,
+   "c3_rate_if_pix_0.6": 34.8,
+   "c3_rate_if_pix_0.65": 33.56,
+   "c3_rate_if_pix_0.7": 32.47,
+   "c3_rate_if_pix_0.75": 31.24
+  },
+  "V83": {
+   "c3_min_area": 1430,
+   "c3_rate_before": 33.96,
+   "c3_rate_after": 32.98,
+   "c3_decisions_differ_from_V79_before": 116,
+   "c3_decisions_differ_from_V79_after": 112,
+   "after_only_this_ens_positive": 56,
+   "after_only_V79_positive": 56,
+   "non_pseudo_c3_rate_after": 20.63,
+   "c3_rate_if_pix_0.6": 34.89,
+   "c3_rate_if_pix_0.65": 33.96,
+   "c3_rate_if_pix_0.7": 32.82,
+   "c3_rate_if_pix_0.75": 31.51
+  }
+ }
+}

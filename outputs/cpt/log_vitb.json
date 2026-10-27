@@ -1,0 +1,142 @@
+{
+ "args": {
+  "mode": "train",
+  "model_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+  "bs": 32,
+  "head_epochs": 2.0,
+  "epochs": 5,
+  "lr": 1e-05,
+  "head_lr": 0.0005,
+  "llrd": 0.9,
+  "wd": 0.04,
+  "k_dino": 4096,
+  "k_ibot": 4096,
+  "head_bn": 1,
+  "t_temp": 0.04,
+  "t_temp_final": 0.04,
+  "center": "softmax",
+  "gram_w": 1.0,
+  "koleo_w": 0.1,
+  "ema": 0.994,
+  "probe_tol": 0.01,
+  "min_cos": 0.8,
+  "workers": 4,
+  "time_steps": 12,
+  "tag": "vitb",
+  "resume": "cpt_vitb_resume.pt",
+  "max_images": 200
+ },
+ "steps_per_epoch": 549,
+ "head_steps": 1098,
+ "epochs": [
+  {
+   "epoch": 1,
+   "step": 1647,
+   "drift_cos": [
+    0.9957,
+    0.9876,
+    0.9823,
+    0.9964
+   ],
+   "probe": [
+    0.4228,
+    [
+     0.3127,
+     0.0,
+     0.6668,
+     0.7115
+    ]
+   ],
+   "checkpoint": "cpt_vitb_ep1.pt"
+  },
+  {
+   "epoch": 2,
+   "step": 2196,
+   "drift_cos": [
+    0.9771,
+    0.9382,
+    0.9262,
+    0.9806
+   ],
+   "probe": [
+    0.4242,
+    [
+     0.326,
+     0.0,
+     0.6807,
+     0.6902
+    ]
+   ],
+   "checkpoint": "cpt_vitb_ep2.pt"
+  },
+  {
+   "epoch": 3,
+   "step": 2745,
+   "drift_cos": [
+    0.9648,
+    0.9034,
+    0.8887,
+    0.9669
+   ],
+   "probe": [
+    0.4171,
+    [
+     0.3131,
+     0.0,
+     0.6816,
+     0.6737
+    ]
+   ],
+   "checkpoint": "cpt_vitb_ep3.pt"
+  },
+  {
+   "epoch": 4,
+   "step": 3294,
+   "drift_cos": [
+    0.9608,
+    0.8921,
+    0.8761,
+    0.9618
+   ],
+   "probe": [
+    0.4221,
+    [
+     0.3269,
+     0.0,
+     0.6793,
+     0.6821
+    ]
+   ],
+   "checkpoint": "cpt_vitb_ep4.pt"
+  },
+  {
+   "epoch": 5,
+   "step": 3843,
+   "drift_cos": [
+    0.9601,
+    0.8901,
+    0.8739,
+    0.961
+   ],
+   "probe": [
+    0.4174,
+    [
+     0.3175,
+     0.0,
+     0.6747,
+     0.6775
+    ]
+   ],
+   "checkpoint": "cpt_vitb_ep5.pt"
+  }
+ ],
+ "stock_probe": [
+  0.4137,
+  [
+   0.2774,
+   0.0,
+   0.6695,
+   0.7079
+  ]
+ ]
+}

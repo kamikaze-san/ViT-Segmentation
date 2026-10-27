@@ -1,0 +1,113 @@
+{
+ "armA_L0": {
+  "n": 200,
+  "n_defect_images": 111,
+  "auc_any_defect": 0.537,
+  "ref_auc_any_defect": 0.9997,
+  "says_yes_on_clean": 0.6629,
+  "says_yes_on_defect": 0.7387,
+  "label_regions_hit_by_a_box": 0.4527,
+  "clean_images_with_boxes": 0.9775
+ },
+ "armA_L1": {
+  "n": 200,
+  "unparsed": 0,
+  "c1": {
+   "positives": 19,
+   "auc": 0.4094,
+   "ref_auc": 0.9962,
+   "yes_rate_on_neg": 0.0,
+   "yes_rate_on_pos": 0.0
+  },
+  "c2": {
+   "positives": 3,
+   "auc": 0.3604,
+   "ref_auc": 1.0,
+   "yes_rate_on_neg": 0.0,
+   "yes_rate_on_pos": 0.0
+  },
+  "c3": {
+   "positives": 85,
+   "auc": 0.5468,
+   "ref_auc": 0.9902,
+   "yes_rate_on_neg": 0.0,
+   "yes_rate_on_pos": 0.0
+  },
+  "c4": {
+   "positives": 12,
+   "auc": 0.859,
+   "ref_auc": 1.0,
+   "yes_rate_on_neg": 0.0,
+   "yes_rate_on_pos": 0.0
+  }
+ },
+ "q35_L0": {
+  "n": 60,
+  "n_defect_images": 35,
+  "auc_any_defect": 0.4309,
+  "ref_auc_any_defect": 1.0,
+  "says_yes_on_clean": 0.84,
+  "says_yes_on_defect": 1.0,
+  "label_regions_hit_by_a_box": 0.4706,
+  "clean_images_with_boxes": 0.92
+ },
+ "q35_L1": {
+  "n": 60,
+  "unparsed": 0,
+  "c1": {
+   "positives": 6,
+   "auc": 0.4167,
+   "ref_auc": 1.0,
+   "yes_rate_on_neg": 0.8333,
+   "yes_rate_on_pos": 0.8333
+  },
+  "c2": {
+   "positives": 0,
+   "auc": NaN,
+   "ref_auc": NaN,
+   "yes_rate_on_neg": 0.9333,
+   "yes_rate_on_pos": null
+  },
+  "c3": {
+   "positives": 29,
+   "auc": 0.3393,
+   "ref_auc": 0.9739,
+   "yes_rate_on_neg": 0.7419,
+   "yes_rate_on_pos": 0.5517
+  },
+  "c4": {
+   "positives": 3,
+   "auc": 0.8363,
+   "ref_auc": 1.0,
+   "yes_rate_on_neg": 0.3684,
+   "yes_rate_on_pos": 0.6667
+  }
+ },
+ "C": {
+  "n": 38,
+  "errors": 0,
+  "mean_dice_defect_images_final": 0.083,
+  "mean_dice_defect_images_stage2": 0.0636,
+  "clean_images_left_empty": 1.0,
+  "defect_images_with_any_mask": 0.2692,
+  "mean_calls": 4.32,
+  "mean_sec": 25.6
+ },
+ "B_wevisone": {
+  "n": 200,
+  "n_defect": 111,
+  "n_clean": 89,
+  "predicts_defect_on_defect": 1.0,
+  "predicts_defect_on_clean": 1.0,
+  "mean_dice_defect_images": 0.3051,
+  "median_dice_defect_images": 0.2785
+ },
+ "D_locateanything": {
+  "n": 200,
+  "predicts_defect_on_defect": 0.9279,
+  "predicts_defect_on_clean": 0.9551,
+  "label_regions_hit_by_a_box": 0.6627,
+  "clean_images_with_boxes": 0.9551,
+  "mean_sec": 9.45
+ }
+}

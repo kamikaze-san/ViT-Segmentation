@@ -1,0 +1,19 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0825 17:34:09.604000 40604 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5343.00it/s]
+trainable params: 442,368 || all params: 22,038,912 || trainable%: 2.0072
+head initialised from spatial_conv_up4_h1024_wp0.3_dice1.0_ep30.pt (val 0.7135393367528631)
+class weights: [0.17, 1.366, 2.178, 0.494, 0.792]
+epoch 0 (head as-loaded, LoRA at init=identity) | val mean 0.6929
+ep  1      | loss 0.1590 |   733s | val c1 0.5785 c2 0.6343 c3 0.7583 c4 0.7882 | mean 0.6898  <- best
+ep  2      | loss 0.1418 |   723s | val c1 0.6005 c2 0.6107 c3 0.7547 c4 0.7883 | mean 0.6886
+ep  3      | loss 0.1305 |   649s | val c1 0.5921 c2 0.6178 c3 0.7633 c4 0.7660 | mean 0.6848
+ep  4      | loss 0.1219 |   609s | val c1 0.6091 c2 0.6441 c3 0.7672 c4 0.7868 | mean 0.7018  <- best
+ep  5      | loss 0.1105 |   611s | val c1 0.5960 c2 0.6354 c3 0.7686 c4 0.7930 | mean 0.6982
+ep  6      | loss 0.1033 |   616s | val c1 0.6006 c2 0.6248 c3 0.7679 c4 0.7912 | mean 0.6961
+ep  7      | loss 0.0961 |   680s | val c1 0.6101 c2 0.6428 c3 0.7693 c4 0.7887 | mean 0.7027  <- best
+ep  8      | loss 0.0925 |   689s | val c1 0.6082 c2 0.6440 c3 0.7698 c4 0.7899 | mean 0.7030  <- best
+
+BEST val mean Dice (c1-4): 0.7030
+Saved C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints/lora_r16_h1024_wp0.3_full.pt

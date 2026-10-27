@@ -1,0 +1,25 @@
+C:\Users\NewGr\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\constants.py:298: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+W0826 19:19:59.680000 53668 site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+Loading weights:   0%|          | 0/211 [00:00<?, ?it/s]Loading weights: 100%|##########| 211/211 [00:00<00:00, 5586.19it/s]
+backbone trainable params: 21,596,544 (100% - full fine-tune)
+RESUMED backbone+head from fullft_lr0.0001_g0.85_h1024_aug1e4.pt (val 0.7324)
+  NOTE: checkpoint has no optimizer state - AdamW moments restart from zero. Expect a transient dip over the first few hundred steps.
+class weights: [0.17, 1.366, 2.178, 0.494, 0.792]
+LLRD: 27 backbone groups, top 5.00e-05 -> block0 7.11e-06 (block2 tap 9.84e-06)
+epoch 0 (head as-loaded, backbone untouched) | val mean 0.7324
+ep  1 | loss 0.1005 |   752s | val c1 0.6435 c2 0.5936 c3 0.7839 c4 0.8051 | mean 0.7065  <- best
+ep  2 | loss 0.0964 |   804s | val c1 0.6593 c2 0.6173 c3 0.7939 c4 0.8236 | mean 0.7235  <- best
+ep  3 | loss 0.0911 |   833s | val c1 0.6362 c2 0.6185 c3 0.7888 c4 0.8030 | mean 0.7116
+ep  4 | loss 0.0884 |   858s | val c1 0.6399 c2 0.6568 c3 0.7876 c4 0.8046 | mean 0.7222
+ep  5 | loss 0.0824 |   815s | val c1 0.6374 c2 0.6244 c3 0.7915 c4 0.8150 | mean 0.7171
+ep  6 | loss 0.0778 |   833s | val c1 0.6303 c2 0.6209 c3 0.7958 c4 0.8210 | mean 0.7170
+ep  7 | loss 0.0731 |   785s | val c1 0.6503 c2 0.6483 c3 0.7960 c4 0.8140 | mean 0.7271  <- best
+ep  8 | loss 0.0676 |   776s | val c1 0.6427 c2 0.6580 c3 0.7937 c4 0.8174 | mean 0.7280  <- best
+ep  9 | loss 0.0645 |   797s | val c1 0.6470 c2 0.6470 c3 0.7962 c4 0.8181 | mean 0.7271
+ep 10 | loss 0.0618 |   757s | val c1 0.6523 c2 0.6666 c3 0.7967 c4 0.8143 | mean 0.7325  <- best
+ep 11 | loss 0.0617 |   739s | val c1 0.6532 c2 0.6466 c3 0.7974 c4 0.8242 | mean 0.7304
+ep 12 | loss 0.0572 |   775s | val c1 0.6464 c2 0.6623 c3 0.7981 c4 0.8214 | mean 0.7320
+ep 13 | loss 0.0558 |   865s | val c1 0.6514 c2 0.6437 c3 0.7996 c4 0.8224 | mean 0.7293
+ep 14 | loss 0.0533 |   810s | val c1 0.6508 c2 0.6492 c3 0.7987 c4 0.8216 | mean 0.7301
+ep 15 | loss 0.0529 |   811s | val c1 0.6506 c2 0.6542 c3 0.7987 c4 0.8199 | mean 0.7309
