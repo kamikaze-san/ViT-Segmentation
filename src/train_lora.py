@@ -51,8 +51,11 @@ from spatial_head import build, patch_labels_at_stride, soft_dice_loss, N_CLASSE
 
 MODEL_ID = "facebook/dinov3-vits16-pretrain-lvd1689m"
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# raw competition data: train_images/, test_images/, train.csv (not in git)
-DATA_DIR = os.environ.get("SEVERSTAL_DATA_DIR", f"{_REPO}/data/raw")
+# raw competition data: train_images/, test_images/, train.csv (not in git). Mac: <repo>/data/raw;
+# PC: the competition folder next to the repo (its data/raw is an empty leftover). The first with train_images/ wins.
+_RAW = [f"{_REPO}/data/raw", f"{os.path.dirname(_REPO)}/severstal-steel-defect-detection"]
+DATA_DIR = os.environ.get("SEVERSTAL_DATA_DIR",
+                          next((d for d in _RAW if os.path.isdir(f"{d}/train_images")), _RAW[0]))
 MASK_DIR = os.environ.get("SEVERSTAL_MASK_DIR", f"{_REPO}/data/processed/masks")
 SPLIT_DIR = os.environ.get("SEVERSTAL_SPLIT_DIR", f"{_REPO}/data/processed")
 CKPT_DIR = os.environ.get("SEVERSTAL_CKPT_DIR", f"{_REPO}/outputs/checkpoints")

@@ -55,6 +55,10 @@ Estimated time on the PC GPU (scale from ViT-B: stage 1 3.3 h, stage 2 ~8 h): SO
 Qwen ~7 h + ~18 h. Mac speed unknown: run a short benchmark first.
 
 ## Next on the Mac (2026-10-28): two C-RADIO checks, `src/radio_checks.sh`
+**Status 10-28 22:51: both ran** (results in docs/experiments.md E31 and results.json `E31b_...`): layout -> keep
+`top`; drift scales with LR but the ViT-B reference arm is still missing. **Still to do on the Mac: the seed-1
+stage-1 gate (`bash cradio_so_stage1.sh full 1`, never run), then the ViT-B arm (`bash radio_checks.sh drift`, needs
+the ViT-B head + gated DINOv3 weights; reuses the C-RADIO arms, so keep the `_lrdrift_*` checkpoints until then).**
 Run after the seed-1 stage-1 gate finishes (not alongside it). The user approved both jobs. Nothing here trains a
 model to keep: the short runs exist only to measure.
 1. **Merge first.** The previous push (`finna`, 10-27 18:32) predates the adapter code, so this Mac's `backbones.py`
