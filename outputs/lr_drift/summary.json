@@ -1,0 +1,132 @@
+{
+ "k_holdout": 32,
+ "device": "mps",
+ "arms": [
+  {
+   "kind": "cradio",
+   "lr": 0.0001,
+   "tag": "_lrdrift_cradio_1e-4",
+   "ckpt": "/Users/venkataniruddhthamatam/Downloads/ViT-Segmentation/outputs/checkpoints/fullft_lr0.0001_g0.85_h1024_lrdrift_cradio_1e-4.pt",
+   "ep0_mean": 0.6907,
+   "ep1_mean": 0.6585,
+   "ep1_per_class": [
+    0.5666,
+    0.5814,
+    0.7393,
+    0.7467
+   ],
+   "ep1_loss": 0.1661,
+   "taps": [
+    6,
+    13,
+    19,
+    26
+   ],
+   "per_tap": [
+    {
+     "rel": 0.19,
+     "cos": 0.9809
+    },
+    {
+     "rel": 0.2283,
+     "cos": 0.9712
+    },
+    {
+     "rel": 0.234,
+     "cos": 0.9665
+    },
+    {
+     "rel": 0.1472,
+     "cos": 0.9876
+    }
+   ],
+   "rel_mean": 0.1999,
+   "cos_mean": 0.9766,
+   "drop": -0.0322
+  },
+  {
+   "kind": "cradio",
+   "lr": 3e-05,
+   "tag": "_lrdrift_cradio_3e-5",
+   "ckpt": "/Users/venkataniruddhthamatam/Downloads/ViT-Segmentation/outputs/checkpoints/fullft_lr3e-05_g0.85_h1024_lrdrift_cradio_3e-5.pt",
+   "ep0_mean": 0.6907,
+   "ep1_mean": 0.6763,
+   "ep1_per_class": [
+    0.5789,
+    0.6052,
+    0.7666,
+    0.7543
+   ],
+   "ep1_loss": 0.1442,
+   "taps": [
+    6,
+    13,
+    19,
+    26
+   ],
+   "per_tap": [
+    {
+     "rel": 0.0592,
+     "cos": 0.9981
+    },
+    {
+     "rel": 0.0773,
+     "cos": 0.9966
+    },
+    {
+     "rel": 0.0832,
+     "cos": 0.995
+    },
+    {
+     "rel": 0.0662,
+     "cos": 0.9971
+    }
+   ],
+   "rel_mean": 0.0715,
+   "cos_mean": 0.9967,
+   "drop": -0.0144
+  },
+  {
+   "kind": "cradio",
+   "lr": 1e-05,
+   "tag": "_lrdrift_cradio_1e-5",
+   "ckpt": "/Users/venkataniruddhthamatam/Downloads/ViT-Segmentation/outputs/checkpoints/fullft_lr1e-05_g0.85_h1024_lrdrift_cradio_1e-5.pt",
+   "ep0_mean": 0.6907,
+   "ep1_mean": 0.6756,
+   "ep1_per_class": [
+    0.5879,
+    0.5855,
+    0.7681,
+    0.7606
+   ],
+   "ep1_loss": 0.1377,
+   "taps": [
+    6,
+    13,
+    19,
+    26
+   ],
+   "per_tap": [
+    {
+     "rel": 0.023,
+     "cos": 0.9997
+    },
+    {
+     "rel": 0.0305,
+     "cos": 0.9995
+    },
+    {
+     "rel": 0.0331,
+     "cos": 0.9992
+    },
+    {
+     "rel": 0.0274,
+     "cos": 0.9995
+    }
+   ],
+   "rel_mean": 0.0285,
+   "cos_mean": 0.9995,
+   "drop": -0.0151
+  }
+ ]
+}

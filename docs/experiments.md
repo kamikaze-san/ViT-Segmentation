@@ -175,6 +175,17 @@ number below comes from there. Last updated 2026-10-28.
     - **The bug was real but did not cause the drop.** Predicted: run 2's epoch 1 stays near 0.69. Got 0.5642 (c1 0.539, c2 0.255, c3 0.748, c4 0.715), below run 1's 0.5954; training loss slightly lower (0.1544 vs 0.1587). The fix stays, since it makes training match inference.
     - **Correction on the schedule:** `--gamma 0.85` is layer-wise decay and does not apply to LoRA. The LR is cosine over 10 epochs, so epochs 1-3 run at 100 / 98 / 91% of peak and epochs 8-10 at 21 / 10 / 2%. Mid-run holdout values say little about the end (soft ViT-B: 0.6366 at epoch 4, 0.7020 at epoch 10), so run 2 is judged at epoch 10 and on Kaggle. Stopping run 1 at epoch 3 was justified by the bug, not by its numbers.
     - **Open hypothesis for the drop:** LoRA at peak LR distorts C-RADIO's features much more than ViT-B's (feature distortion, as in LP-FT), hitting the small classes first. Test when the GPU is free: per-tap feature change from stock after stage 2, C-RADIO vs ViT-B.
+  - **Mac follow-up checks (2026-10-28, `src/radio_checks.sh all`, results in `outputs/radio_layout_probe/results.json` and `outputs/lr_drift/summary.json`):**
+    - **Layout: keep `top`.** Frozen probes, mean Dice (3 probe seeds): top 0.5936, native 0.5823 (-0.011, CI -0.036 to +0.007), center 0.5673 (-0.026, CI -0.039 to -0.017), stretch 0.5479 (-0.046, CI -0.077 to -0.008). No layout beats top by 0.01 with a CI above 0, so no new stage-1 head is needed. Center loses c2 (0.455 vs 0.550); apart from c2 it is level with top.
+    - **Drift: C-RADIO's feature movement scales with LR.** 1 epoch (300 steps, 1,200 strips) at constant peak LR from the stage-1 head; mean relative change of the tap features from stock, and holdout:
+
+      | LR | Feature drift (rel, mean of taps) | Holdout ep 0 -> 1 | Drop |
+      |---|---|---|---|
+      | 1e-4 | 0.200 | 0.6907 -> 0.6585 | -0.032 |
+      | 3e-5 | 0.072 | 0.6907 -> 0.6763 | -0.014 |
+      | 1e-5 | 0.029 | 0.6907 -> 0.6756 | -0.015 |
+
+    - **Reading it:** 1e-4 moves the features ~7x more than 1e-5 and loses most; 3e-5 and 1e-5 tie (differences below the 0.009 seed sigma). A small drop remains even at 1e-5, so drift is not the whole story. The hypothesis was C-RADIO vs ViT-B at the same LR; the **ViT-B reference arm was not run** (head and gated weights absent on the Mac), so that comparison is still open. The short runs also did not reproduce the PC's c2 collapse (c2 0.58-0.61 here vs 0.255 in a full epoch at 1e-4): 300 steps has limited power. Candidate for a stage-2 rerun: C-RADIO LoRA at 3e-5 or lower. Single seed.
   - **Next:** Kaggle solo submission of the fixed C-RADIO with rate-matched thresholds against 0.90695 (Kaggle decides, not holdout); then Qwen stage 2.
 
 **Not yet run:** ideas with their reasoning and cheapest tests are in `ideas_backlog.md`; open continued-pretraining hypotheses are in `continued_pretraining.md`.

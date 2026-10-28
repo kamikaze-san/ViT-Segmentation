@@ -37,6 +37,7 @@ Design choices and why:
 import argparse
 import os
 import time
+os.environ.setdefault("PYTORCH_ENABLE_MPS_FALLBACK", "1")  # before torch loads
 import numpy as np
 import pandas as pd
 import cv2
@@ -49,10 +50,29 @@ from peft import LoraConfig, get_peft_model
 from spatial_head import build, patch_labels_at_stride, soft_dice_loss, N_CLASSES
 
 MODEL_ID = "facebook/dinov3-vits16-pretrain-lvd1689m"
-DATA_DIR = r"C:\Users\NewGr\Downloads\ViT Project severstal\severstal-steel-defect-detection"
-MASK_DIR = r"C:\Users\NewGr\Downloads\ViT Project severstal\severstal\data\processed\masks"
-SPLIT_DIR = r"C:\Users\NewGr\Downloads\ViT Project severstal\severstal\data\processed"
-CKPT_DIR = r"C:\Users\NewGr\Downloads\ViT Project severstal\severstal\outputs\checkpoints"
+_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# raw competition data: train_images/, test_images/, train.csv (not in git)
+DATA_DIR = os.environ.get("SEVERSTAL_DATA_DIR", f"{_REPO}/data/raw")
+MASK_DIR = os.environ.get("SEVERSTAL_MASK_DIR", f"{_REPO}/data/processed/masks")
+SPLIT_DIR = os.environ.get("SEVERSTAL_SPLIT_DIR", f"{_REPO}/data/processed")
+CKPT_DIR = os.environ.get("SEVERSTAL_CKPT_DIR", f"{_REPO}/outputs/checkpoints")
+
+
+def pick_device():
+    """cuda > mps > cpu; override with SEVERSTAL_DEVICE."""
+    d = os.environ.get("SEVERSTAL_DEVICE")
+    if d:
+        return d
+    if torch.cuda.is_available():
+        return "cuda"
+    if torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
+
+
+DEVICE = pick_device()
+# bf16 everywhere by default (as on the PC); SEVERSTAL_AMP=fp16 to try half precision on MPS
+AMP_DTYPE = {"bf16": torch.bfloat16, "fp16": torch.float16}[os.environ.get("SEVERSTAL_AMP", "bf16")]
 TAP_LAYERS = (2, 5, 8, 11)
 GRID = (16, 100)
 
@@ -110,7 +130,7 @@ def evaluate(model, head, ids, stride, norm, device, n_special, bs=4, limit=None
         sel = list(range(i0, min(i0 + bs, len(use))))
         x, _, masks = read_batch(use, sel, stride, norm)
         xt = torch.from_numpy(x).to(device)
-        with torch.autocast("cuda", dtype=torch.bfloat16):
+        with torch.autocast(DEVICE, dtype=AMP_DTYPE):
             cells = head(tap_features(model, xt, n_special)).float().argmax(1)
         cells = cells.cpu().numpy().astype(np.uint8)
         for k in range(len(sel)):
@@ -144,7 +164,7 @@ def main():
     p.add_argument("--tag", default="")
     args = p.parse_args()
 
-    device = "cuda"
+    device = DEVICE
     stride = 4
     model, norm = load_backbone(args.rank, args.alpha, args.dropout, device)
     n_special = 1 + getattr(model.base_model.model.config, "num_register_tokens", 0)
@@ -200,7 +220,7 @@ def main():
             xt = torch.from_numpy(x).to(device)
             y = torch.from_numpy(labs).long().to(device)
             opt.zero_grad()
-            with torch.autocast("cuda", dtype=torch.bfloat16):
+            with torch.autocast(DEVICE, dtype=AMP_DTYPE):
                 logits = head(tap_features(model, xt, n_special)).float()
                 loss = crit(logits, y)
                 if args.dice > 0:

@@ -4590,5 +4590,86 @@
    "lr_schedule_note": "--gamma 0.85 is layer-wise LR decay and does not apply to LoRA; the LR is cosine over 10 epochs, stepped per epoch: multipliers 1.0, 0.976, 0.905, 0.794, 0.655, 0.5, 0.345, 0.206, 0.095, 0.024. Epochs 1-3 run at near-peak LR, so mid-run holdout values say little about the end: soft ViT-B went 0.6366 at epoch 4 to 0.7020 at epoch 10. Judge stage 2 at epoch 10 and on Kaggle, not at epochs 1-3. (Run 1 was stopped at epoch 3 on that basis; justified by the bug, but its early numbers were not evidence of failure.)",
    "open_hypothesis": "LoRA at peak LR 1e-4 distorts C-RADIO's features much more than ViT-B's (feature distortion, as in LP-FT), hitting the small classes c1/c2 first. Test when the GPU is free: per-tap feature change vs stock after stage 2, C-RADIO vs ViT-B."
   }
+ },
+ "E31b_radio_layout_and_lr_drift_mac_2026-10-28": {
+  "question": "(1) Does another layout of C-RADIO's position grid beat 'top' for 256x1600 strips? (2) Does LoRA at peak LR move C-RADIO's features far enough to explain stage 2's early drop, and which LR keeps drift small?",
+  "protocol": "src/radio_checks.sh all on the Mac mini M4 Pro (MPS). Layout: cradio_layout_probe.py, frozen probes, 3 probe seeds, paired bootstrap, rule: switch only if a layout beats top by >=0.01 mean Dice with 95% CI above 0. Drift: 1 epoch (300 steps, first 1,200 train12k strips, no pseudo labels) of LoRA r16 at constant peak LR from the epoch-10 stage-1 head, then feature_drift.py on 32 holdout strips. ViT-B reference arm NOT run (head and DINOv3 weights absent on the Mac).",
+  "layout": {
+   "top": {
+    "mean_dice": 0.5936,
+    "vs_top": null,
+    "ci95": null
+   },
+   "center": {
+    "mean_dice": 0.5673,
+    "vs_top": -0.0263,
+    "ci95": [
+     -0.0391,
+     -0.0166
+    ]
+   },
+   "stretch": {
+    "mean_dice": 0.5479,
+    "vs_top": -0.0456,
+    "ci95": [
+     -0.0774,
+     -0.008
+    ]
+   },
+   "native": {
+    "mean_dice": 0.5823,
+    "vs_top": -0.0113,
+    "ci95": [
+     -0.0364,
+     0.0075
+    ]
+   }
+  },
+  "layout_verdict": "keep 'top' (the default): no layout beats it by >= 0.01 with a 95% interval above 0",
+  "drift": [
+   {
+    "lr": 0.0001,
+    "rel_drift_mean": 0.1999,
+    "cos_mean": 0.9766,
+    "holdout_ep0": 0.6907,
+    "holdout_ep1": 0.6585,
+    "drop": -0.0322,
+    "per_tap_rel": [
+     0.19,
+     0.2283,
+     0.234,
+     0.1472
+    ]
+   },
+   {
+    "lr": 3e-05,
+    "rel_drift_mean": 0.0715,
+    "cos_mean": 0.9967,
+    "holdout_ep0": 0.6907,
+    "holdout_ep1": 0.6763,
+    "drop": -0.0144,
+    "per_tap_rel": [
+     0.0592,
+     0.0773,
+     0.0832,
+     0.0662
+    ]
+   },
+   {
+    "lr": 1e-05,
+    "rel_drift_mean": 0.0285,
+    "cos_mean": 0.9995,
+    "holdout_ep0": 0.6907,
+    "holdout_ep1": 0.6756,
+    "drop": -0.0151,
+    "per_tap_rel": [
+     0.023,
+     0.0305,
+     0.0331,
+     0.0274
+    ]
+   }
+  ],
+  "notes": "C-RADIO feature drift scales about linearly with LR (0.20 / 0.07 / 0.03 at 1e-4 / 3e-5 / 1e-5). Holdout drop at 300 steps: -0.032 / -0.014 / -0.015 (3e-5 vs 1e-5 is a tie, seed sigma ~0.009). The short runs did NOT reproduce the PC's c2 collapse (c2 0.58-0.61 here vs 0.255 at PC epoch 1, full epoch at 1e-4), so 300 steps has limited power. feature_drift.py's assert on lora_r was relaxed because best-epoch files lack that key. Single seed."
  }
 }

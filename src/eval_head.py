@@ -20,7 +20,8 @@ def main():
     ap.add_argument("--backbone-path", default=None)
     ap.add_argument("--split", default="holdout")
     a = ap.parse_args()
-    dev = "cuda"
+    from train_lora import DEVICE
+    dev = DEVICE
     ck = torch.load(os.path.join(T.CKPT_DIR, a.ckpt), map_location="cpu", weights_only=False)
     kind = a.backbone or ck.get("backbone_kind") or "dinov3"
     if kind == "dinov3":

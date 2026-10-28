@@ -98,7 +98,8 @@ def main():
         print(f"{kind}: stock taps {T.TAP_LAYERS}, features {tuple(f0.shape)} on {len(ids)} holdout strips ({dev})", flush=True)
         for x in group:
             ck = torch.load(x["ckpt"], map_location="cpu", weights_only=False, mmap=True)
-            assert ck.get("lora_r") and ck.get("backbone") is not None, f"{x['ckpt']} is not a LoRA run with a backbone"
+            # the best-epoch file (save_best) has no lora_r key but its backbone is the merged LoRA weights
+            assert ck.get("backbone") is not None, f"{x['ckpt']} has no backbone (frozen run?)"
             model.load_state_dict(ck["backbone"]); model.eval()
             dr = drift(f0, tap_maps(model, ids, norm, ns, dev))
             row = {**x, **parse_log(x["tag"]), "taps": list(T.TAP_LAYERS), "per_tap": dr,

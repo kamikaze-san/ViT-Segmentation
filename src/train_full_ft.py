@@ -52,6 +52,7 @@ import argparse
 import copy
 import os
 import time
+os.environ.setdefault("PYTORCH_ENABLE_MPS_FALLBACK", "1")  # before torch loads
 import numpy as np
 import pandas as pd
 import cv2
@@ -62,7 +63,7 @@ from transformers import AutoModel, AutoImageProcessor
 
 from spatial_head import build, patch_labels_at_stride, soft_targets_at_stride, soft_dice_loss, N_CLASSES
 from train_lora import (MODEL_ID, DATA_DIR, MASK_DIR, SPLIT_DIR, CKPT_DIR, TAP_LAYERS,
-                        GRID, read_batch)
+                        GRID, read_batch, DEVICE, AMP_DTYPE)
 
 N_BLOCKS = 12
 MAX_DEPTH = N_BLOCKS + 1  # embeddings=0, blocks=1..12, final norm=13
@@ -515,7 +516,7 @@ def evaluate(model, head, ids, stride, norm, device, n_special, bs=4, limit=None
         sel = list(range(i0, min(i0 + bs, len(use))))
         x, _, masks = read_batch(use, sel, stride, norm)
         xt = torch.from_numpy(x).to(device)
-        with torch.autocast("cuda", dtype=torch.bfloat16):
+        with torch.autocast(DEVICE, dtype=AMP_DTYPE):
             lg = head(tap_features(model, xt, n_special)).float()
             if decision == "sigmoid":
                 # classes decided independently; background is "nothing fired",
@@ -657,7 +658,7 @@ def main():
         assert args.loss in ("ce_dice", "metric"), "--target soft supports --loss ce_dice or metric"
     assert args.loss != "metric" or args.target == "soft", "--loss metric needs --target soft"
 
-    device = "cuda"
+    device = DEVICE
     stride = 4
     # a BCE model must be SCORED the way it is trained, or epoch selection picks
     # the best softmax epoch of a model that is not doing softmax
@@ -941,7 +942,7 @@ def main():
             y = torch.from_numpy(labs).to(device)
             y = y.float() if TARGET_MODE == "soft" else y.long()
             opt.zero_grad(set_to_none=True)
-            with torch.autocast("cuda", dtype=torch.bfloat16):
+            with torch.autocast(DEVICE, dtype=AMP_DTYPE):
                 logits = head(tap_features(model, xt, n_special)).float()
                 if args.loss == "lovasz":
                     loss = args.lovasz_w * lovasz_softmax(logits, y)
@@ -999,7 +1000,7 @@ def main():
             flag += f"  [snapshot ep{ep+1}]"
         print(f"ep {ep+1:2d} | loss {tot/nb:.4f} | {time.time()-t0:5.0f}s | "
               f"val c1 {d[1]:.4f} c2 {d[2]:.4f} c3 {d[3]:.4f} c4 {d[4]:.4f} | mean {m:.4f}{flag}"
-              f" | peak {torch.cuda.max_memory_allocated() / 2**30:.2f} GiB",
+              f" | peak {(torch.cuda.max_memory_allocated() if DEVICE == 'cuda' else torch.mps.driver_allocated_memory() if DEVICE == 'mps' else 0) / 2**30:.2f} GiB",
               flush=True)
 
     # NOTE: no torch.save here. save_best() already wrote this exact state the
