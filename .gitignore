@@ -28,3 +28,9 @@ __pycache__/
 
 # early LightlyTrain/EoMT split copies (rebuild with src/prepare_split_dirs.py if ever needed)
 data/processed/masks_split/
+
+# local dry runs of the Kaggle cells
+outputs/kaggle_local_test/
+
+# E30 frozen features (213 MB, regenerable with src/shift_analysis.py)
+outputs/shift/feat_*.npy

@@ -14,6 +14,8 @@ Status: best ensemble V79 0.90874 private, best single 0.90695, 1st place 0.9088
 
 _Updated 2026-10-27: the zero-shot VLM route is closed (E28); the fine-tuned checker in #2 is still open._
 
+_Updated 2026-10-28: the frozen-encoder comparison (E29) made a backbone upgrade the main lever; it is in progress as E31 (C-RADIOv4-SO400M and Qwen ViT pass the stage-1 gate; C-RADIO stage 2 rerunning after a position bug). See `experiments.md`._
+
 | # | Idea | Targets | Cheapest test | Cost | Verdict so far |
 |---|---|---|---|---|---|
 | 1 | **Vote-based presence rule:** fire a class only if at least k of V79's 5 members fire on their own | false alarms | Label-free rate-match on test, 1-2 submissions | no training | Best first step; decision-rule changes are what has transferred here |
@@ -89,7 +91,7 @@ Kaggle's 60-minute limit applies to #2 and #4: measure V79's current runtime bef
 - **What it is (from the abstract):** a 3D vision-language model. Visual tokens get 3D rotary position embeddings, so attention works in shared scene coordinates instead of per frame; depth and camera poses combine multiple views; a query-based decoder does grounding, instance segmentation and VQA.
 - **Direct use: none.** Our data are single 2D grayscale strips with no views, depth, poses or video.
 - **Transferable ideas:**
-  1. **Position encoding defines the world the tokens live in.** That is our E20 / E27 finding: DINOv3's RoPE coordinates are normalised per input, so a crop and the full strip live in different coordinate worlds (the cause of the CPT side effect, H-A). Giving every patch its physical strip coordinate everywhere (training crops, tiles, zoomed re-inference) is the 2D analogue. It enables cheap crop training and higher-resolution tiles without the coordinate mismatch.
+  1. **Position encoding defines the world the tokens live in.** That is our E20 / E27 finding: DINOv3's RoPE coordinates are normalised per input, so a crop and the full strip live in different coordinate worlds (the cause of the CPT side effect, H-A). Giving every patch its physical strip coordinate everywhere (training crops, tiles, zoomed re-inference) is the 2D analogue. It enables cheap crop training and higher-resolution tiles without the coordinate mismatch. E31 adds a third instance: C-RADIO's training-mode position augmentation lays a strip out differently from eval, which broke its first stage-2 run.
   2. **Spend tokens on content, not area.** Most of a strip is clean steel. A second pass at higher resolution only around candidate regions, with consistent coordinates, is the zoom-and-recheck idea done inside our own model.
   3. **A shared world across images (speculative):** if some strips are neighbouring tiles of the same coil, neighbours could give context. Cheap CPU check: match edge columns across images for continuity.
 

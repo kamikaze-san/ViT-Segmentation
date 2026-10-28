@@ -1,0 +1,179 @@
+{
+ "decision_rule": {
+  "pix": [
+   0.6,
+   0.6,
+   0.6,
+   0.45
+  ],
+  "mina": [
+   1050,
+   2450,
+   1750,
+   5250
+  ],
+  "bilinear": true
+ },
+ "weights": "min(p/(1-p), 20)",
+ "effective_sample_size_of_weighted_holdout": 48.6,
+ "per_model": [
+  {
+   "model": "12k_ep16",
+   "kaggle_private": 0.89894,
+   "holdout_unweighted": 0.95164732257323,
+   "holdout_importance_weighted": 0.919232645693775,
+   "holdout_test_like_30pct": 0.9294281152169962
+  },
+  {
+   "model": "blackout",
+   "kaggle_private": 0.89933,
+   "holdout_unweighted": 0.9509524460116895,
+   "holdout_importance_weighted": 0.9102259618021961,
+   "holdout_test_like_30pct": 0.9305677451953681
+  },
+  {
+   "model": "lovasz",
+   "kaggle_private": 0.89084,
+   "holdout_unweighted": 0.9514490971547586,
+   "holdout_importance_weighted": 0.90694702176439,
+   "holdout_test_like_30pct": 0.928042648514714
+  },
+  {
+   "model": "vitb",
+   "kaggle_private": 0.90006,
+   "holdout_unweighted": 0.9525400223205616,
+   "holdout_importance_weighted": 0.9208526835531219,
+   "holdout_test_like_30pct": 0.9366487083951188
+  },
+  {
+   "model": "bce16",
+   "kaggle_private": 0.90082,
+   "holdout_unweighted": 0.9494706935548367,
+   "holdout_importance_weighted": 0.9149855348031274,
+   "holdout_test_like_30pct": 0.9293668469884769
+  },
+  {
+   "model": "vits_taps",
+   "kaggle_private": 0.89539,
+   "holdout_unweighted": 0.9484913714082036,
+   "holdout_importance_weighted": 0.9176320019014996,
+   "holdout_test_like_30pct": 0.9278590495021478
+  },
+  {
+   "model": "vitb_lora",
+   "kaggle_private": 0.89953,
+   "holdout_unweighted": 0.9480218339283517,
+   "holdout_importance_weighted": 0.9299015600409367,
+   "holdout_test_like_30pct": 0.9293040073159125
+  },
+  {
+   "model": "vitl_lora",
+   "kaggle_private": 0.89956,
+   "holdout_unweighted": 0.9503286251213656,
+   "holdout_importance_weighted": 0.9237286766216606,
+   "holdout_test_like_30pct": 0.9302347150927552
+  },
+  {
+   "model": "vitl_bce",
+   "kaggle_private": 0.8988,
+   "holdout_unweighted": 0.949648942595742,
+   "holdout_importance_weighted": 0.9128257593685014,
+   "holdout_test_like_30pct": 0.9290790782805916
+  },
+  {
+   "model": "lora_r8",
+   "kaggle_private": 0.89961,
+   "holdout_unweighted": 0.9431360828300865,
+   "holdout_importance_weighted": 0.9072553508928656,
+   "holdout_test_like_30pct": 0.9185358352188634
+  }
+ ],
+ "correlation_with_kaggle": {
+  "holdout_unweighted": {
+   "pearson": -0.174,
+   "spearman": -0.127
+  },
+  "holdout_importance_weighted": {
+   "pearson": 0.397,
+   "spearman": 0.321
+  },
+  "holdout_test_like_30pct": {
+   "pearson": 0.127,
+   "spearman": 0.406
+  }
+ },
+ "firing_by_darkness": {
+  "<5% dark": {
+   "test_share": 0.4137,
+   "train_share": 0.6265,
+   "ensemble_fire_rate_test_c1_c4": [
+    0.0219,
+    0.0004,
+    0.3095,
+    0.1352
+   ],
+   "train_defect_rate_c1_c4": [
+    0.0577,
+    0.0005,
+    0.3857,
+    0.0942
+   ],
+   "ensemble_fires_any_test": 0.4289,
+   "train_any_defect": 0.4956
+  },
+  "5-30% dark": {
+   "test_share": 0.2276,
+   "train_share": 0.1788,
+   "ensemble_fire_rate_test_c1_c4": [
+    0.0407,
+    0.0032,
+    0.2115,
+    0.0319
+   ],
+   "train_defect_rate_c1_c4": [
+    0.0723,
+    0.0417,
+    0.4472,
+    0.0199
+   ],
+   "ensemble_fires_any_test": 0.2801,
+   "train_any_defect": 0.5616
+  },
+  "30-60% dark": {
+   "test_share": 0.1006,
+   "train_share": 0.1152,
+   "ensemble_fire_rate_test_c1_c4": [
+    0.1697,
+    0.0072,
+    0.4043,
+    0.009
+   ],
+   "train_defect_rate_c1_c4": [
+    0.1424,
+    0.0504,
+    0.4691,
+    0.0072
+   ],
+   "ensemble_fires_any_test": 0.5812,
+   "train_any_defect": 0.6532
+  },
+  ">60% dark": {
+   "test_share": 0.2581,
+   "train_share": 0.0795,
+   "ensemble_fire_rate_test_c1_c4": [
+    0.0169,
+    0.019,
+    0.4293,
+    0.0
+   ],
+   "train_defect_rate_c1_c4": [
+    0.074,
+    0.075,
+    0.4302,
+    0.0052
+   ],
+   "ensemble_fires_any_test": 0.4652,
+   "train_any_defect": 0.5563
+  }
+ }
+}

@@ -62,15 +62,35 @@ def main():
             # the kernel builds ProgressiveHead vs HeadNet from this; dropping it
             # defaults to conv and fails on a key mismatch at load time
             "head_arch": ck.get("head_arch", "conv")}
+    kind = ck.get("backbone_kind") or "dinov3"
+    if kind != "dinov3":
+        # adapter backbones (backbones.py): the kernel rebuilds the module from the shipped config (+ code for
+        # C-RADIO) and loads THIS state dict, so the checkpoint must hold the merged weights (stage 2 / LoRA);
+        # a frozen stage-1 checkpoint saved "backbone": None and is not a submission model
+        assert ck["backbone"] is not None, f"{a.ckpt} has no backbone weights (frozen stage-1 checkpoint)"
+        slim["backbone"] = {k: (v.half() if v.is_floating_point() else v) for k, v in ck["backbone"].items()}
+        slim["backbone_kind"] = kind
+        slim["backbone_name"] = os.path.basename(os.path.normpath(ck["backbone_path"])).lower()
     out_ckpt = f"{out_dir}/{a.out_name}"
     torch.save(slim, out_ckpt)
+    if kind != "dinov3":
+        src = ck["backbone_path"]
+        if kind == "cradio":
+            # remote code + config; Kaggle flattens folders, so the config is renamed per variant and the kernel
+            # rebuilds a directory around it (the .py files are identical across C-RADIO variants)
+            for f in glob.glob(os.path.join(src, "*.py")):
+                shutil.copy(f, out_dir)
+        shutil.copy(os.path.join(src, "config.json"), f"{out_dir}/config_{slim['backbone_name']}.json")
+        print(f"adapter backbone {kind}: weights fp16 in {a.out_name}, config_{slim['backbone_name']}.json"
+              + (" + C-RADIO code" if kind == "cradio" else ""))
 
     # Kaggle FLATTENS uploaded directories, so a cfg_<short>/config.json arrives
     # as a top-level config.json and collides with the other bundle's. Disambiguate
     # by FILENAME instead; the kernel rebuilds a directory around it at runtime,
     # since AutoConfig.from_pretrained needs a directory rather than a file.
-    short = model_id.split("dinov3-")[-1].split("-")[0]        # vits16 / vitb16
-    shutil.copy(find_config(model_id), f"{out_dir}/config_{short}.json")
+    if kind == "dinov3":
+        short = model_id.split("dinov3-")[-1].split("-")[0]        # vits16 / vitb16
+        shutil.copy(find_config(model_id), f"{out_dir}/config_{short}.json")
 
     # No top-level config.json / norm.json: when two bundles are attached to one
     # kernel those names collide, and a stray config.json can hand a 768-dim

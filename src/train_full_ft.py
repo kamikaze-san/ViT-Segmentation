@@ -356,6 +356,7 @@ def lovasz_softmax(logits, labels, classes="present"):
 
 
 IS_CONVNEXT = False      # set from the loaded config in main()
+ADAPTER = None           # a backbones.py adapter when --backbone is not dinov3; None keeps the DINOv3 path as-is
 
 
 def convnext_stages(model, x):
@@ -488,6 +489,8 @@ def build_param_groups(model, base_lr, gamma, wd):
 
 
 def tap_features(model, x, n_special):
+    if ADAPTER is not None:
+        return ADAPTER(x)                     # same (B, 4*dim, 16, 100) map, built by backbones.py
     if IS_CONVNEXT:
         return convnext_stages(model, x)      # the FPN head consumes the list
     out = model(pixel_values=x, output_hidden_states=True)
@@ -640,9 +643,14 @@ def main():
                         "per-cell class fractions, unbiased by construction.")
     p.add_argument("--presence-w", type=float, default=1.0,
                    help="--loss metric only: weight of the per-pair top-k presence term")
+    p.add_argument("--backbone", default="dinov3", choices=["dinov3", "cradio", "qwenvit"],
+                   help="dinov3 = the Hugging Face DINOv3 path (--model-id), unchanged. cradio / qwenvit = "
+                        "the adapters in backbones.py, loaded from --backbone-path; frozen or LoRA only.")
+    p.add_argument("--backbone-path", default=None,
+                   help="local folder for --backbone cradio (C-RADIOv4 repo) or qwenvit (WeVisOne-VL-2B repo)")
     args = p.parse_args()
     torch.manual_seed(args.seed)
-    global TARGET_MODE
+    global TARGET_MODE, ADAPTER
     TARGET_MODE = args.target
     if args.target == "soft":
         assert args.augment, "--target soft is wired into read_batch_aug only; pass --augment"
@@ -655,58 +663,89 @@ def main():
     # the best softmax epoch of a model that is not doing softmax
     DECISION = "sigmoid" if args.loss == "bce_dice" else "argmax"
 
-    proc = AutoImageProcessor.from_pretrained(args.model_id)
-    model = AutoModel.from_pretrained(args.model_id).to(device)
-    global IS_CONVNEXT
-    IS_CONVNEXT = "convnext" in model.config.model_type
-    if IS_CONVNEXT:
-        print(f"ConvNeXt backbone: hierarchical stages {model.config.hidden_sizes}, "
-              f"native stride 4 - no taps, no PixelShuffle")
-    # LLRD scales each block's LR by gamma ** (MAX_DEPTH - depth). With MAX_DEPTH
-    # pinned at 13 and a 24-block backbone, param_depth returns up to 25 and deep
-    # blocks get gamma ** -12 = ~142x the base LR - divergence, not a small error.
-    # So derive both the depth map and the taps from the backbone actually loaded.
-    global N_BLOCKS, MAX_DEPTH, TAP_LAYERS
-    if IS_CONVNEXT:
-        N_BLOCKS = MAX_DEPTH = 0
+    if args.backbone == "dinov3":
+        proc = AutoImageProcessor.from_pretrained(args.model_id)
+        model = AutoModel.from_pretrained(args.model_id).to(device)
+        global IS_CONVNEXT
+        IS_CONVNEXT = "convnext" in model.config.model_type
+        if IS_CONVNEXT:
+            print(f"ConvNeXt backbone: hierarchical stages {model.config.hidden_sizes}, "
+                  f"native stride 4 - no taps, no PixelShuffle")
+        # LLRD scales each block's LR by gamma ** (MAX_DEPTH - depth). With MAX_DEPTH
+        # pinned at 13 and a 24-block backbone, param_depth returns up to 25 and deep
+        # blocks get gamma ** -12 = ~142x the base LR - divergence, not a small error.
+        # So derive both the depth map and the taps from the backbone actually loaded.
+        global N_BLOCKS, MAX_DEPTH, TAP_LAYERS
+        if IS_CONVNEXT:
+            N_BLOCKS = MAX_DEPTH = 0
+        else:
+            N_BLOCKS = model.config.num_hidden_layers
+        if not IS_CONVNEXT:
+            MAX_DEPTH = N_BLOCKS + 1
+        if args.taps and not IS_CONVNEXT:
+            TAP_LAYERS = tuple(args.taps)
+        elif not IS_CONVNEXT and N_BLOCKS != 12:
+            # proportional to the validated 12-block choice (2,5,8,11)
+            TAP_LAYERS = tuple(int(round((t + 1) * N_BLOCKS / 12)) - 1 for t in (2, 5, 8, 11))
+            print(f"taps rescaled for {N_BLOCKS} blocks: {TAP_LAYERS}")
+        if not IS_CONVNEXT:
+            assert max(TAP_LAYERS) < N_BLOCKS, f"taps {TAP_LAYERS} exceed {N_BLOCKS} blocks"
+            print(f"depth map: {N_BLOCKS} blocks, MAX_DEPTH {MAX_DEPTH}, taps {TAP_LAYERS}")
+        if args.backbone_ckpt:
+            bck = torch.load(f"{CKPT_DIR}/{args.backbone_ckpt}", map_location=device,
+                             weights_only=False)
+            model.load_state_dict(bck["backbone"])
+            print(f"backbone loaded from {args.backbone_ckpt} "
+                  f"(MIM epoch {bck.get('epoch')}, cos {bck.get('cos')})")
+        if args.grad_checkpoint and not args.freeze_backbone:
+            model.gradient_checkpointing_enable()
+            print("gradient checkpointing ON")
+        for q in model.parameters():
+            q.requires_grad_(not args.freeze_backbone)
+        if args.lora_r:
+            from peft import LoraConfig, get_peft_model
+            model = get_peft_model(model, LoraConfig(
+                r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=0.0, bias="none",
+                target_modules=list(args.lora_targets))).to(device)
+            n_lora = sum(q.numel() for q in model.parameters() if q.requires_grad)
+            print(f"LoRA r={args.lora_r} alpha={args.lora_alpha} targets={args.lora_targets} "
+                  f"| {n_lora:,} trainable backbone params")
+        norm = {"mean": np.array(proc.image_mean, dtype=np.float32),
+                "std": np.array(proc.image_std, dtype=np.float32)}
+        n_special = 1 + getattr(model.config, "num_register_tokens", 0)
+        n_train = sum(q.numel() for q in model.parameters() if q.requires_grad)
+        mode = ("LoRA" if args.lora_r else "frozen" if args.freeze_backbone else "full fine-tune")
+        print(f"backbone trainable params: {n_train:,} ({mode})")
     else:
-        N_BLOCKS = model.config.num_hidden_layers
-    if not IS_CONVNEXT:
-        MAX_DEPTH = N_BLOCKS + 1
-    if args.taps and not IS_CONVNEXT:
-        TAP_LAYERS = tuple(args.taps)
-    elif not IS_CONVNEXT and N_BLOCKS != 12:
-        # proportional to the validated 12-block choice (2,5,8,11)
-        TAP_LAYERS = tuple(int(round((t + 1) * N_BLOCKS / 12)) - 1 for t in (2, 5, 8, 11))
-        print(f"taps rescaled for {N_BLOCKS} blocks: {TAP_LAYERS}")
-    if not IS_CONVNEXT:
-        assert max(TAP_LAYERS) < N_BLOCKS, f"taps {TAP_LAYERS} exceed {N_BLOCKS} blocks"
-        print(f"depth map: {N_BLOCKS} blocks, MAX_DEPTH {MAX_DEPTH}, taps {TAP_LAYERS}")
-    if args.backbone_ckpt:
-        bck = torch.load(f"{CKPT_DIR}/{args.backbone_ckpt}", map_location=device,
-                         weights_only=False)
-        model.load_state_dict(bck["backbone"])
-        print(f"backbone loaded from {args.backbone_ckpt} "
-              f"(MIM epoch {bck.get('epoch')}, cos {bck.get('cos')})")
-    if args.grad_checkpoint and not args.freeze_backbone:
-        model.gradient_checkpointing_enable()
-        print("gradient checkpointing ON")
-    for q in model.parameters():
-        q.requires_grad_(not args.freeze_backbone)
-    if args.lora_r:
-        from peft import LoraConfig, get_peft_model
-        model = get_peft_model(model, LoraConfig(
-            r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=0.0, bias="none",
-            target_modules=list(args.lora_targets))).to(device)
-        n_lora = sum(q.numel() for q in model.parameters() if q.requires_grad)
-        print(f"LoRA r={args.lora_r} alpha={args.lora_alpha} targets={args.lora_targets} "
-              f"| {n_lora:,} trainable backbone params")
-    norm = {"mean": np.array(proc.image_mean, dtype=np.float32),
-            "std": np.array(proc.image_std, dtype=np.float32)}
-    n_special = 1 + getattr(model.config, "num_register_tokens", 0)
-    n_train = sum(q.numel() for q in model.parameters() if q.requires_grad)
-    mode = ("LoRA" if args.lora_r else "frozen" if args.freeze_backbone else "full fine-tune")
-    print(f"backbone trainable params: {n_train:,} ({mode})")
+        from backbones import build_backbone, wrap_blocks_with_checkpoint
+        assert args.backbone_path, f"--backbone-path is required for --backbone {args.backbone}"
+        assert args.freeze_backbone or args.lora_r,             "adapters support --freeze-backbone or --lora-r only (the LLRD depth map is DINOv3-specific)"
+        assert not args.backbone_ckpt, "--backbone-ckpt is DINOv3-only"
+        ADAPTER = build_backbone(args.backbone, args.backbone_path, device)
+        model = ADAPTER.module
+        N_BLOCKS, MAX_DEPTH, TAP_LAYERS = ADAPTER.n_blocks, ADAPTER.n_blocks + 1, tuple(ADAPTER.taps)
+        print(f"{args.backbone} backbone from {args.backbone_path}: {N_BLOCKS} blocks, dim {ADAPTER.dim}, "
+              f"taps {TAP_LAYERS}")
+        if args.grad_checkpoint and not args.freeze_backbone:
+            wrap_blocks_with_checkpoint(ADAPTER.blocks)
+            print("gradient checkpointing ON (per-block wrapper)")
+        for q in model.parameters():
+            q.requires_grad_(not args.freeze_backbone)
+        if args.lora_r:
+            from peft import LoraConfig, get_peft_model
+            tm = (ADAPTER.lora_regex if list(args.lora_targets) == ["q_proj", "k_proj", "v_proj"]
+                  else list(args.lora_targets))
+            model = get_peft_model(model, LoraConfig(
+                r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=0.0, bias="none",
+                target_modules=tm)).to(device)
+            n_lora = sum(q.numel() for q in model.parameters() if q.requires_grad)
+            print(f"LoRA r={args.lora_r} alpha={args.lora_alpha} targets={tm} | {n_lora:,} trainable backbone params")
+        norm = {"mean": np.array(ADAPTER.norm["mean"], dtype=np.float32),
+                "std": np.array(ADAPTER.norm["std"], dtype=np.float32)}
+        n_special = 0
+        n_train = sum(q.numel() for q in model.parameters() if q.requires_grad)
+        mode = ("LoRA" if args.lora_r else "frozen")
+        print(f"backbone trainable params: {n_train:,} ({mode})")
 
     if IS_CONVNEXT:
         from convnext_head import ConvNeXtFPNHead
@@ -717,10 +756,11 @@ def main():
         print(f"backbone {args.model_id}  stages {tuple(model.config.hidden_sizes)}  "
               f"FPN head proj128 hidden256")
     else:
-        bb_dim = model.config.hidden_size
+        bb_dim = ADAPTER.dim if ADAPTER is not None else model.config.hidden_size
         head = build(args.head_arch, dim=bb_dim * len(TAP_LAYERS), upscale=4,
                      hidden=args.hidden).to(device)
-        print(f"backbone {args.model_id}  dim {bb_dim}  head input {bb_dim * len(TAP_LAYERS)}")
+        print(f"backbone {args.model_id if ADAPTER is None else args.backbone}  dim {bb_dim}  "
+              f"head input {bb_dim * len(TAP_LAYERS)}")
     resume_ck = None
     if args.resume:
         resume_ck = torch.load(f"{CKPT_DIR}/{args.resume}", map_location=device, weights_only=False)
@@ -876,6 +916,7 @@ def main():
                     "gamma": args.gamma, "augment": args.augment, "epochs": args.epochs,
                     "aug_strength": args.aug_strength if args.augment else None,
                     "seed": args.seed, "resumed_from": args.resume,
+                    "backbone_kind": args.backbone, "backbone_path": args.backbone_path,
                     "pseudo_ids": args.pseudo_ids, "n_train": len(tr_ids), "target": args.target, "presence_w": args.presence_w,
                     "val_mean_dice": float(score)}, path)
 
@@ -888,6 +929,8 @@ def main():
         head.train()
         if not args.freeze_backbone:
             model.train()
+            if ADAPTER is not None:
+                ADAPTER.train_mode_fix()
         order = rng.permutation(len(tr_ids))
         tot, nb, t0 = 0.0, 0, time.time()
         for i0 in range(0, len(order), args.bs):
@@ -930,7 +973,8 @@ def main():
             # optimizer state is saved WITH the best weights so a later --resume
             # continues from a consistent (weights, moments) pair rather than
             # restarting AdamW from zero the way this run had to
-            best = (m, {"backbone": backbone_state_for_save(model, args.lora_r),
+            best = (m, {"backbone": (None if ADAPTER is not None and args.freeze_backbone
+                                     else backbone_state_for_save(model, args.lora_r)),
                         "head": {k: v.detach().cpu().clone()
                                  for k, v in head.state_dict().items()},
                         "optimizer": copy.deepcopy(opt.state_dict()),
@@ -939,8 +983,10 @@ def main():
             flag = "  <- best (saved)"
         if (ep + 1) in snap_at:
             snap = f"{CKPT_DIR}/fullft_lr{args.bb_lr}_g{args.gamma}_h{args.hidden}{args.tag}_ep{ep+1}.pt"
-            torch.save({"backbone": backbone_state_for_save(model, args.lora_r),
+            torch.save({"backbone": (None if ADAPTER is not None and args.freeze_backbone
+                                     else backbone_state_for_save(model, args.lora_r)),
                         "head": {k: v.detach().cpu().clone() for k, v in head.state_dict().items()},
+                        "backbone_kind": args.backbone, "backbone_path": args.backbone_path,
                         "lora_r": args.lora_r, "lora_alpha": args.lora_alpha,
                         "lora_targets": list(args.lora_targets) if args.lora_r else None,
                         "hidden": args.hidden, "head_arch": args.head_arch, "tap_layers": TAP_LAYERS,
@@ -952,7 +998,8 @@ def main():
                         "n_train": len(tr_ids), "val_mean_dice": float(m)}, snap)
             flag += f"  [snapshot ep{ep+1}]"
         print(f"ep {ep+1:2d} | loss {tot/nb:.4f} | {time.time()-t0:5.0f}s | "
-              f"val c1 {d[1]:.4f} c2 {d[2]:.4f} c3 {d[3]:.4f} c4 {d[4]:.4f} | mean {m:.4f}{flag}",
+              f"val c1 {d[1]:.4f} c2 {d[2]:.4f} c3 {d[3]:.4f} c4 {d[4]:.4f} | mean {m:.4f}{flag}"
+              f" | peak {torch.cuda.max_memory_allocated() / 2**30:.2f} GiB",
               flush=True)
 
     # NOTE: no torch.save here. save_best() already wrote this exact state the
