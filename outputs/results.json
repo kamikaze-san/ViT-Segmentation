@@ -4462,7 +4462,7 @@
   },
   "summary": "both backbones pass the stage-1 gate: C-RADIOv4-SO400M +0.038, Qwen ViT +0.011 over soft ViT-B at epoch 10. Caveats: one seed each; holdout cannot rank for Kaggle; frozen gains have shrunk after fine-tuning before (ViT-B over ViT-S: +0.020 frozen -> +0.0036 Kaggle).",
   "cradio_stage2_pc": {
-   "status": "run 1 stopped after epoch 3 (10-28 15:48; best ckpt = epoch 2, ..._cradio_so_lora_warm_soft_pseudo01.pt); run 2 with the position fix started 10-28 15:49 (src/cradio_stage2_posfix.sh, tag _cradio_so_lora_warm_soft_posfix_pseudo01, log outputs/logs/cradio_stage2_posfix.log); run 2 epoch 1 = 0.5642; decision: let run 2 finish and judge at epoch 10 + Kaggle",
+   "status": "run 2 done 10-29 14:07: epoch 10 holdout 0.7168 (soft ViT-B stage 2: 0.7020). Next: device-code recheck, fp16 check, bundle, rate-match, Kaggle solo",
    "launcher": "src/cradio_stage2.sh --grad-checkpoint (log outputs/logs/cradio_stage2.log)",
    "recipe": "stage 2 of vitb_soft_pseudo.sh with only the backbone swapped: LoRA r16 a32 on qkv/proj/fc1/fc2 of all 27 blocks (7.70M params), init head = Mac ep10 head, train12k + 3402 pseudo = 15470 strips, soft targets, weight-power 0, blackout, bb-lr 1e-4, gamma 0.85, bs 4, seed 0, 10 epochs",
    "grad_checkpoint_test": {
@@ -4582,13 +4582,145 @@
       0.7481,
       0.7154
      ],
-     "loss": 0.1544,
-     "sec": 7964,
-     "peak_gib": 3.81
+     "loss": 0.1544
+    },
+    {
+     "ep": 2,
+     "mean": 0.6403,
+     "per_class": [
+      0.5567,
+      0.526,
+      0.7419,
+      0.7366
+     ],
+     "loss": 0.138
+    },
+    {
+     "ep": 3,
+     "mean": 0.5895,
+     "per_class": [
+      0.4589,
+      0.4436,
+      0.7353,
+      0.7203
+     ],
+     "loss": 0.124
+    },
+    {
+     "ep": 4,
+     "mean": 0.6299,
+     "per_class": [
+      0.5865,
+      0.4413,
+      0.7628,
+      0.7289
+     ],
+     "loss": 0.1129
+    },
+    {
+     "ep": 5,
+     "mean": 0.6704,
+     "per_class": [
+      0.6296,
+      0.5358,
+      0.7625,
+      0.7536
+     ],
+     "loss": 0.1045
+    },
+    {
+     "ep": 6,
+     "mean": 0.6921,
+     "per_class": [
+      0.6441,
+      0.5985,
+      0.7764,
+      0.7494
+     ],
+     "loss": 0.0937
+    },
+    {
+     "ep": 7,
+     "mean": 0.6807,
+     "per_class": [
+      0.6817,
+      0.4787,
+      0.7921,
+      0.7704
+     ],
+     "loss": 0.0847
+    },
+    {
+     "ep": 8,
+     "mean": 0.6994,
+     "per_class": [
+      0.6837,
+      0.5639,
+      0.7847,
+      0.7655
+     ],
+     "loss": 0.0764
+    },
+    {
+     "ep": 9,
+     "mean": 0.7039,
+     "per_class": [
+      0.7022,
+      0.5516,
+      0.7889,
+      0.7729
+     ],
+     "loss": 0.0704
+    },
+    {
+     "ep": 10,
+     "mean": 0.7168,
+     "per_class": [
+      0.711,
+      0.5856,
+      0.7908,
+      0.7796
+     ],
+     "loss": 0.0677
     }
    ],
    "lr_schedule_note": "--gamma 0.85 is layer-wise LR decay and does not apply to LoRA; the LR is cosine over 10 epochs, stepped per epoch: multipliers 1.0, 0.976, 0.905, 0.794, 0.655, 0.5, 0.345, 0.206, 0.095, 0.024. Epochs 1-3 run at near-peak LR, so mid-run holdout values say little about the end: soft ViT-B went 0.6366 at epoch 4 to 0.7020 at epoch 10. Judge stage 2 at epoch 10 and on Kaggle, not at epochs 1-3. (Run 1 was stopped at epoch 3 on that basis; justified by the bug, but its early numbers were not evidence of failure.)",
-   "open_hypothesis": "LoRA at peak LR 1e-4 distorts C-RADIO's features much more than ViT-B's (feature distortion, as in LP-FT), hitting the small classes c1/c2 first. Test when the GPU is free: per-tap feature change vs stock after stage 2, C-RADIO vs ViT-B."
+   "open_hypothesis": "LoRA at peak LR 1e-4 distorts C-RADIO's features much more than ViT-B's (feature distortion, as in LP-FT), hitting the small classes c1/c2 first. Test when the GPU is free: per-tap feature change vs stock after stage 2, C-RADIO vs ViT-B.",
+   "run2_result": {
+    "status": "done 10-29 14:07 (10 epochs, ~22.3 h)",
+    "checkpoints": [
+     "fullft_lr0.0001_g0.85_h1024_cradio_so_lora_warm_soft_posfix_pseudo01_ep10.pt (snapshot, epoch 10)",
+     "fullft_lr0.0001_g0.85_h1024_cradio_so_lora_warm_soft_posfix_pseudo01.pt (best = epoch 10, with optimizer state)"
+    ],
+    "ep10": {
+     "mean": 0.7168,
+     "per_class": [
+      0.711,
+      0.5856,
+      0.7908,
+      0.7796
+     ]
+    },
+    "vs_soft_vitb_stage2_ep10": {
+     "vitb": {
+      "mean": 0.702,
+      "per_class": [
+       0.6652,
+       0.582,
+       0.7807,
+       0.78
+      ]
+     },
+     "diff_mean": 0.0148,
+     "diff_per_class": [
+      0.0458,
+      0.0036,
+      0.0101,
+      -0.0004
+     ]
+    },
+    "reading": "dip-then-recover: 0.69 -> 0.56 at epoch 1, back above the start by epoch 6, best at epoch 10. Ends +0.015 over soft ViT-B's stage 2 on holdout (~1.6 seed sigmas), almost all from c1 (+0.046). Holdout cannot rank models for Kaggle (E12), so the verdict is a rate-matched solo Kaggle submission against 0.90695."
+   }
   }
  },
  "E31b_radio_layout_and_lr_drift_mac_2026-10-28": {
