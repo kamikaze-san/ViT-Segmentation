@@ -1,0 +1,49 @@
+{
+ "bundle": "model_cradio_so_soft_pseudo01.pt",
+ "n_test": 5506,
+ "seconds": 1613.0,
+ "s_per_img": 0.2929,
+ "reference": "solo_pseudo01 (E26's target; soft ViT-B solo matched to it)",
+ "reference_pix": [
+  0.6,
+  0.6,
+  0.6,
+  0.45
+ ],
+ "min_area": [
+  1050,
+  2450,
+  1750,
+  5250
+ ],
+ "reference_rate_pct": [
+  4.25,
+  0.527,
+  34.617,
+  6.448
+ ],
+ "soft_vitb_rate_at_its_pix_pct": [
+  4.232,
+  0.527,
+  34.653,
+  6.448
+ ],
+ "cradio_rate_at_reference_pix_pct": [
+  3.996,
+  0.436,
+  33.418,
+  6.284
+ ],
+ "matched_pix": [
+  0.45,
+  0.38,
+  0.48,
+  0.18
+ ],
+ "matched_rate_pct": [
+  4.25,
+  0.527,
+  34.653,
+  6.448
+ ]
+}

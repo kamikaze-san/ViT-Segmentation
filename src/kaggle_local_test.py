@@ -35,6 +35,9 @@ def run_v2(ckpts=None):
     src = open(os.path.join(ROOT, "src", "kaggle_ensemble_cell_v2.py"), encoding="utf-8").read()
     if ckpts:
         src = re.sub(r'^CKPTS\s*=.*?(?=^WEIGHTS)', f"CKPTS = {ckpts!r}\n", src, count=1, flags=re.M | re.S)
+    for var in ("PIX", "MINA"):                       # TEST_PIX="[.5,.4,.4,.3]" etc. for a member's own thresholds
+        if os.environ.get(f"TEST_{var}"):
+            src = re.sub(rf"^{var}\s*=.*$", f"{var} = {os.environ[f'TEST_{var}']}", src, count=1, flags=re.M)
     exec(compile(src, "kaggle_ensemble_cell_v2", "exec"), {"__name__": "__main__"})
 
 

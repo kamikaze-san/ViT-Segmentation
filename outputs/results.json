@@ -1280,6 +1280,19 @@
    "kaggle_private": 0.90833,
    "kaggle_public": 0.91623,
    "vs_V79": "-0.00041 private, +0.00056 public"
+  },
+  "single_cradio_so_lora_warm_soft_pseudo01": {
+   "model": "C-RADIOv4-SO400M LoRA r16 a32 (qkv/proj/fc1/fc2, 27 blocks), warm head, soft targets, no class weights, round-1 pseudo labels, position fix (E31 run 2, epoch 10)",
+   "cell": "src/kaggle_cell_cradio_solo.py (v2 cell), T4 x2, fp16, 3-view TTA, bilinear",
+   "thresholds": "PIX [0.45, 0.38, 0.48, 0.18], min_area [1050, 2450, 1750, 5250] (rate-matched to the soft ViT-B solo's test rates)",
+   "kaggle_private": 0.90766,
+   "kaggle_public": 0.91947,
+   "vs_soft_vitb_solo": {
+    "private": 0.00071,
+    "public": 0.00065
+   },
+   "runtime": "1188 s (19.8 min) on 2 T4s; predicted-positive rate 11.47%, as rate-matched",
+   "note": "NEW BEST SINGLE MODEL. Both splits up together. Holdout gain over soft ViT-B (+0.015) shrank to +0.0007 on Kaggle, as backbone gains have shrunk before."
   }
  },
  "augmentation_verdict_REVERSED": {
@@ -4462,7 +4475,7 @@
   },
   "summary": "both backbones pass the stage-1 gate: C-RADIOv4-SO400M +0.038, Qwen ViT +0.011 over soft ViT-B at epoch 10. Caveats: one seed each; holdout cannot rank for Kaggle; frozen gains have shrunk after fine-tuning before (ViT-B over ViT-S: +0.020 frozen -> +0.0036 Kaggle).",
   "cradio_stage2_pc": {
-   "status": "run 2 done 10-29 14:07: epoch 10 holdout 0.7168 (soft ViT-B stage 2: 0.7020). Next: device-code recheck, fp16 check, bundle, rate-match, Kaggle solo",
+   "status": "done: Kaggle solo 0.90766 private / 0.91947 public, new best single model (soft ViT-B 0.90695 / 0.91882)",
    "launcher": "src/cradio_stage2.sh --grad-checkpoint (log outputs/logs/cradio_stage2.log)",
    "recipe": "stage 2 of vitb_soft_pseudo.sh with only the backbone swapped: LoRA r16 a32 on qkv/proj/fc1/fc2 of all 27 blocks (7.70M params), init head = Mac ep10 head, train12k + 3402 pseudo = 15470 strips, soft targets, weight-power 0, blackout, bb-lr 1e-4, gamma 0.85, bs 4, seed 0, 10 epochs",
    "grad_checkpoint_test": {
@@ -4720,6 +4733,83 @@
      ]
     },
     "reading": "dip-then-recover: 0.69 -> 0.56 at epoch 1, back above the start by epoch 6, best at epoch 10. Ends +0.015 over soft ViT-B's stage 2 on holdout (~1.6 seed sigmas), almost all from c1 (+0.046). Holdout cannot rank models for Kaggle (E12), so the verdict is a rate-matched solo Kaggle submission against 0.90695."
+   },
+   "kaggle_prep_2026-10-29": {
+    "device_code_check": "eval_head.py with the Mac-merged train_lora/train_full_ft: soft ViT-B stage-1 head 0.6529 (c1 0.5598 c2 0.5246 c3 0.7569 c4 0.7703), identical to its checkpoint",
+    "precision_check": {
+     "bf16": {
+      "mean": 0.7163,
+      "per_class": [
+       0.7114,
+       0.5837,
+       0.7909,
+       0.7793
+      ]
+     },
+     "fp16": {
+      "mean": 0.7165,
+      "per_class": [
+       0.7113,
+       0.5847,
+       0.791,
+       0.7792
+      ]
+     },
+     "note": "holdout via eval_head (SEVERSTAL_AMP), merged checkpoint; fp16 = bf16 within 0.001 per class, no overflow. Both 0.0005 below training's 0.7168 (LoRA folded into the weights for saving)."
+    },
+    "bundle": "outputs/kaggle_bundle_cradio/ (model_cradio_so_soft_pseudo01.pt 877 MB fp16 + config_c-radiov4-so400m.json + C-RADIO's .py files, 878 MB total)",
+    "rate_match": {
+     "script": "src/cradio_rate_match.py, all 5,506 test images, fp16, 3-view TTA, bilinear (35 min)",
+     "reference_rate_pct": [
+      4.25,
+      0.527,
+      34.617,
+      6.448
+     ],
+     "soft_vitb_rate_at_its_pix_pct": [
+      4.232,
+      0.527,
+      34.653,
+      6.448
+     ],
+     "cradio_rate_at_reference_pix_pct": [
+      3.996,
+      0.436,
+      33.418,
+      6.284
+     ],
+     "matched_pix": [
+      0.45,
+      0.38,
+      0.48,
+      0.18
+     ],
+     "min_area": [
+      1050,
+      2450,
+      1750,
+      5250
+     ],
+     "c4_caveat": "c4's rate curve is nearly flat (6.28% at PIX 0.45 -> 6.45% at 0.18, ~9 of 5,506 images) while the median c4 mask grows ~8%; the choice moves Kaggle by roughly +-0.0003. Kept the established exact-match rule (as E26) for a clean comparison; revisit c4 (e.g. 0.32) only if the result is within noise of 0.90695."
+    },
+    "cell_dry_run": "kaggle_ensemble_cell_v2.py (and the ready cell src/kaggle_cell_cradio_solo.py) on 48 local test images, 1 worker: loads, 192 rows, 28 positive; 192/192 decisions identical to the rate-match pass",
+    "timing": {
+     "script": "src/kaggle_time_estimate.py, 100 test images, fp16, 3-view TTA, RTX 4060",
+     "s_per_img": {
+      "soft_vitb": 0.0811,
+      "cradio": 0.2824
+     },
+     "ratio": 3.48,
+     "kaggle_estimate": "soft ViT-B solo ~14 min on one T4 (v1 cell) -> C-RADIO ~49 min on one GPU; the v2 cell splits images over both T4s, so ~25-30 min including loading"
+    },
+    "submission": {
+     "status": "submitted 2026-10-29",
+     "private": 0.90766,
+     "public": 0.91947,
+     "vs_soft_vitb": "+0.00071 private, +0.00065 public",
+     "runtime_s": 1188,
+     "positive_rate_pct": 11.47
+    }
    }
   }
  },

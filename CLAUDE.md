@@ -19,7 +19,8 @@ PyTorch MPS) to run experiments in parallel. Read this first, then `docs/experim
   scores 1 only if nothing is predicted. ~86% of pairs are empty.
 - Finished Kaggle competition, used as an experiment dataset; scored by late submissions from a notebook (T4 x2,
   60-min limit; the submission cell `src/kaggle_ensemble_cell.py` currently uses only one T4).
-- Best ensemble V79 **0.90874** private; best single model **soft ViT-B, 0.90695** (V95); 1st place 0.90883.
+- Best ensemble V79 **0.90874** private; best single model **C-RADIOv4-SO400M LoRA, 0.90766** (E31, 2026-10-29;
+  previous: soft ViT-B 0.90695, V95); 1st place 0.90883.
 - Biggest remaining loss is train->test shift and presence errors (false alarms ~10x more frequent on test than
   holdout). **Holdout cannot rank models for Kaggle** (r = -0.12); use it for mechanism checks and gates only.
   Always rate-match thresholds on the test set (label-free) before comparing models on Kaggle.
@@ -54,7 +55,23 @@ User decision: test these two (not DINOv3 ViT-H+, too slow to train), each again
 Estimated time on the PC GPU (scale from ViT-B: stage 1 3.3 h, stage 2 ~8 h): SO400M ~9 h + ~22 h,
 Qwen ~7 h + ~18 h. Mac speed unknown: run a short benchmark first.
 
-## Next on the Mac (2026-10-28): two C-RADIO checks, `src/radio_checks.sh`
+## Next on the Mac (2026-10-29): DINOv3 ViT-H+ stage-1 gate, `src/vith_stage1.sh`
+C-RADIO's Kaggle solo (0.90766) is the new best single. Question: does a bigger encoder beat it? ViT-H+ (840M,
+Meta's official 7B distill, best presence AUC in E29: 0.965) gets the frozen stage-1 gate only; the PC is busy with
+the ensemble pass and Qwen stage 2.
+1. **Weights:** copy the PC's `external/dinov3-vith16plus/` (config.json, model.safetensors, preprocessor_config.json;
+   3.2 GB) into this repo's `external/`, or `hf download facebook/dinov3-vith16plus-pretrain-lvd1689m --local-dir
+   external/dinov3-vith16plus` (gated: the user's HF login).
+2. **Run:** `cd src && PYTHON=../.venv/bin/python nohup bash vith_stage1.sh > ../outputs/logs/vith_stage1.out 2>&1 &`.
+   It is the DINOv3 path (no `--backbone` flag): the log must show `taps rescaled for 32 blocks: (7, 15, 23, 31)`.
+   Estimate ~19 h (C-RADIO's gate took 11.1 h here; ViT-H+ features cost ~1.75x).
+3. **Rule (pre-registered):** epoch-10 holdout mean vs C-RADIO's two-seed gate mean 0.688: >= 0.697 = clearly better,
+   stage 2 worth considering; 0.679-0.697 = tie, not worth its 40-50 h stage 2; < 0.679 = stop. Soft ViT-B: 0.6529.
+- Only if it passes, for stage 2 later: ViT-H+ has a gated MLP, so "all linears" for LoRA is 7 modules
+  (`q_proj k_proj v_proj o_proj gate_proj up_proj down_proj`); on the PC's 8 GB card it likely needs the frozen base
+  weights in bf16; `model_id` is a local path, so bundling needs that folder's config.json.
+
+## Earlier on the Mac (2026-10-28): two C-RADIO checks, `src/radio_checks.sh`
 **Status 10-28 22:51: both ran** (results in docs/experiments.md E31 and results.json `E31b_...`): layout -> keep
 `top`; drift scales with LR but the ViT-B reference arm is still missing. **Still to do on the Mac: the seed-1
 stage-1 gate (`bash cradio_so_stage1.sh full 1`, never run), then the ViT-B arm (`bash radio_checks.sh drift`, needs
