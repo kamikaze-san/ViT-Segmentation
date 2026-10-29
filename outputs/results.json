@@ -4628,6 +4628,7 @@
   "layout_verdict": "keep 'top' (the default): no layout beats it by >= 0.01 with a 95% interval above 0",
   "drift": [
    {
+    "kind": "cradio",
     "lr": 0.0001,
     "rel_drift_mean": 0.1999,
     "cos_mean": 0.9766,
@@ -4642,6 +4643,7 @@
     ]
    },
    {
+    "kind": "cradio",
     "lr": 3e-05,
     "rel_drift_mean": 0.0715,
     "cos_mean": 0.9967,
@@ -4656,6 +4658,7 @@
     ]
    },
    {
+    "kind": "cradio",
     "lr": 1e-05,
     "rel_drift_mean": 0.0285,
     "cos_mean": 0.9995,
@@ -4668,8 +4671,142 @@
      0.0331,
      0.0274
     ]
+   },
+   {
+    "kind": "dinov3",
+    "lr": 0.0001,
+    "rel_drift_mean": 0.1202,
+    "cos_mean": 0.9911,
+    "holdout_ep0": 0.6513,
+    "holdout_ep1": 0.5546,
+    "drop": -0.0967,
+    "per_tap_rel": [
+     0.086,
+     0.1433,
+     0.1714,
+     0.0802
+    ]
    }
   ],
-  "notes": "C-RADIO feature drift scales about linearly with LR (0.20 / 0.07 / 0.03 at 1e-4 / 3e-5 / 1e-5). Holdout drop at 300 steps: -0.032 / -0.014 / -0.015 (3e-5 vs 1e-5 is a tie, seed sigma ~0.009). The short runs did NOT reproduce the PC's c2 collapse (c2 0.58-0.61 here vs 0.255 at PC epoch 1, full epoch at 1e-4), so 300 steps has limited power. feature_drift.py's assert on lora_r was relaxed because best-epoch files lack that key. Single seed."
+  "notes": "Results: (a) C-RADIO's features move 1.7x more than ViT-B's at the same LR 1e-4 (rel 0.200 vs 0.120): first half of the pre-registered hypothesis holds; the drift-matching C-RADIO LR is 5.5e-5. (b) The head alone costs -0.038 (head-only control), as much as the 1e-4 LoRA arm, so the early dip is mostly head restart, not backbone drift. (c) The short arm does not predict stage 2: ViT-B drops -0.097 here but only -0.009 in its real stage-2 epoch 1; C-RADIO drops -0.032 here but about -0.13 on the PC. 5.5e-5 is a drift-matching LR, not a validated one. Single seed, one 1,200-strip subset. feature_drift.py's lora_r assert was relaxed (best-epoch files lack that key).",
+  "cradio_lr_matching_vitb_1e-4_drift": 5.511969199912707e-05,
+  "head_only_control": {
+   "protocol": "frozen C-RADIO, same stage-1 head, same 1,200 strips, 300 steps, head LR 3e-4, seed 0 (tag _lrdrift_headonly)",
+   "holdout_ep0": 0.6907,
+   "holdout_ep1": 0.6527,
+   "drop": -0.038,
+   "ep1_c1_c4": [
+    0.4845,
+    0.6004,
+    0.7616,
+    0.7642
+   ],
+   "ep0_c1_c4": [
+    0.6403,
+    0.5887,
+    0.7702,
+    0.7635
+   ]
+  },
+  "vitb_reference_arm": {
+   "protocol": "DINOv3 ViT-B LoRA r16 at 1e-4 from the soft ViT-B stage-1 head, same 1,200 strips and seed",
+   "holdout_ep0_mac": 0.6513,
+   "holdout_ep0_recorded_pc": 0.6529,
+   "holdout_ep1": 0.5546,
+   "drop": -0.0967,
+   "ep1_c1_c4": [
+    0.404,
+    0.5376,
+    0.7288,
+    0.5482
+   ],
+   "rel_drift_mean": 0.1202
+  }
+ },
+ "E31d_headonly_full_epoch_mac_2026-10-29": {
+  "question": "How much of the PC's C-RADIO stage-2 epoch-1 drop (0.6906 -> 0.5642) is the head/optimizer restart, and how much is LoRA moving the backbone?",
+  "protocol": "train_full_ft.py exactly as the PC's run 2 epoch 1 (C-RADIO, epoch-10 stage-1 head, train12k + 3,402 round-1 pseudo labels = 15,470 strips, soft targets, weight-power 0, blackout, bs 4, seed 0, one epoch at constant peak LR) with --freeze-backbone instead of LoRA. Mac, MPS bf16, 5,057 s. src/cradio_mac_chain.sh, tag _cradio_headonly_fullep1.",
+  "pre_registered_rule": "head-only epoch-1 mean <=0.60: head restart explains most of the dip; >=0.66: dip comes from LoRA; in between: mixed",
+  "epoch0": {
+   "mean": 0.6907,
+   "c1_c4": [
+    0.6403,
+    0.5887,
+    0.7702,
+    0.7635
+   ]
+  },
+  "headonly_epoch1": {
+   "mean": 0.6461,
+   "c1_c4": [
+    0.5975,
+    0.5275,
+    0.7347,
+    0.7246
+   ]
+  },
+  "pc_run2_epoch1_lora": {
+   "mean": 0.5642,
+   "c1_c4": [
+    0.539,
+    0.255,
+    0.748,
+    0.715
+   ]
+  },
+  "drop_total_pc": -0.1264,
+  "drop_headonly": -0.0446,
+  "extra_drop_attributable_to_lora_at_1e-4": -0.0819,
+  "verdict": "MIXED: the head restart alone costs -0.045 (about 35% of the PC's -0.126); the other -0.082 is LoRA at 1e-4, concentrated on c2 (0.5275 head-only vs 0.255) and c1 (0.5975 vs 0.539); c3 and c4 are not worse with LoRA (c3 0.748 vs 0.735, c4 0.715 vs 0.725).",
+  "caveats": "Single seed; c2 has only about 11 positives in the 500 holdout strips, so its swing is noisy; the PC run used CUDA and gradient checkpointing, this run MPS. Epoch 1 is a mid-schedule value at peak LR; run 2 is judged at epoch 10 and on Kaggle."
+ },
+ "E31e_cradio_stage1_gate_seed1_mac_2026-10-29": {
+  "question": "Is the +0.038 of the C-RADIO stage-1 gate over soft ViT-B (0.6529) seed luck?",
+  "protocol": "Identical to E30/E31 seed 0 except --seed 1 (head init, epoch order, augmentation stream). cradio_so_stage1.sh full 1, tag _cradio_so_fh10_s1, Mac MPS, 3,969 s/epoch, started 10-29 01:17.",
+  "pre_registered_rule": "epoch-10 mean >=0.6529: real; 0.6439-0.6529: marginal; <0.6439: mostly luck",
+  "per_epoch_mean": [
+   0.401,
+   0.5463,
+   0.5581,
+   0.5869,
+   0.6394,
+   0.6837,
+   0.6783,
+   0.6787,
+   0.685,
+   0.6856
+  ],
+  "epoch10": {
+   "c1_c4": [
+    0.6144,
+    0.5966,
+    0.7683,
+    0.7629
+   ],
+   "mean": 0.6856
+  },
+  "seed0_epoch10": {
+   "c1_c4": [
+    0.6403,
+    0.5887,
+    0.7702,
+    0.7635
+   ],
+   "mean": 0.6907
+  },
+  "soft_vitb_reference": {
+   "c1_c4": [
+    0.56,
+    0.525,
+    0.757,
+    0.77
+   ],
+   "mean": 0.6529
+  },
+  "delta_vs_vitb": 0.0327,
+  "delta_vs_seed0": -0.0051,
+  "two_seed_mean": 0.6882,
+  "verdict": "PASS: the gain is real. Seed 1 is +0.033 over ViT-B, and the seed-to-seed gap is 0.005, inside the 0.009 sigma. Gains stay in c1 (+0.054) and c2 (+0.072); c3 +0.011; c4 -0.007.",
+  "caveats": "Two seeds for C-RADIO, one for the ViT-B reference. Holdout cannot rank models for Kaggle."
  }
 }
