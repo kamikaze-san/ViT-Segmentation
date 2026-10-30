@@ -218,6 +218,19 @@ number below comes from there. Last updated 2026-10-28.
 
 - **E32, C-RADIO in the ensemble (2026-10-30).** `ensemble_maps.py` saved each member's 3-view test probabilities once (V79's five + C-RADIO, 50 min), so every candidate set was rate-matched to V79's firing rates from disk; V79 rebuilt from the maps reproduced E26's record exactly. **V79 + C-RADIO: 0.90911 private / 0.91813 public**, +0.00037 / +0.00246 over V79 and 0.00028 above 1st place's private 0.90883 (within noise; ~75 submissions judged on private carry selection luck). About 42 min on two T4s. It contradicts the E21-based prediction that a second student of the round-1 teacher would hurt: C-RADIO helped despite sharing the teacher's labels. Qwen (stage 2 holdout 0.6974, a tie with soft ViT-B) was also mapped: rate-matched alone, C-RADIO and Qwen are the most similar pair of all 21 (1.52% of test pairs differ; the three pseudo-label students are the most alike trio), and Qwen costs ~19 min on Kaggle, so V79 + C-RADIO + Qwen (~61 min) does not fit. Cells for the swaps and V79 + Qwen are ready, unsubmitted.
 
+- **E33, DINOv3 ViT-H+ stage-1 gate (2026-10-29/30, Mac).** C-RADIO's Kaggle solo (0.90766) became the best single; does a bigger encoder beat it? DINOv3 ViT-H+ (840M, 32 blocks x 1280, Meta's official 7B distill, best presence AUC in E29: 0.965) got the frozen stage-1 gate only (`src/vith_stage1.sh`, soft recipe, taps (7, 15, 23, 31), 21.4 h at ~7,580 s per epoch on MPS).
+  - **Pre-registered rule** (epoch-10 holdout mean vs C-RADIO's two-seed gate mean 0.688): >= 0.697 clearly better, stage 2 worth considering; 0.679-0.697 tie, not worth a 40-50 h stage 2; < 0.679 stop.
+  - **Result: epoch 10 = 0.6660** (c1 0.603, c2 0.540, c3 0.761, c4 0.761); best 0.6729 at epoch 8. **Below 0.679: stop.**
+
+    | Frozen backbone, stage 1 | c1 | c2 | c3 | c4 | Mean |
+    |---|---|---|---|---|---|
+    | Soft ViT-B | 0.560 | 0.525 | 0.757 | 0.770 | 0.6529 |
+    | Qwen3-VL ViT 300M | 0.599 | 0.546 | 0.761 | 0.750 | 0.6640 |
+    | **DINOv3 ViT-H+** | 0.603 | 0.540 | 0.761 | 0.761 | **0.6660** |
+    | C-RADIO-SO400M, seed 0 / seed 1 | 0.640 / 0.614 | 0.589 / 0.597 | 0.770 / 0.768 | 0.764 / 0.763 | 0.6907 / 0.6856 |
+
+  - **Reading it:** ViT-H+ is +0.013 over ViT-B (about 1.5 seed sigmas), level with the Qwen ViT, and 0.022 below C-RADIO; the small classes are where it falls short (c1 0.603 vs 0.614-0.640, c2 0.540 vs 0.589-0.597). More parameters within the DINOv3 family did not close the gap that C-RADIO's multi-teacher distillation opened. One seed; holdout cannot rank models for Kaggle. Checkpoints (3.4-3.5 GB each, stock backbone included) are in `outputs/checkpoints`.
+
 **Not yet run:** ideas with their reasoning and cheapest tests are in `ideas_backlog.md`; open continued-pretraining hypotheses are in `continued_pretraining.md`.
 
 ## Methodology lessons
