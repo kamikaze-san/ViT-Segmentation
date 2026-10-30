@@ -19,7 +19,7 @@ PyTorch MPS) to run experiments in parallel. Read this first, then `docs/experim
   scores 1 only if nothing is predicted. ~86% of pairs are empty.
 - Finished Kaggle competition, used as an experiment dataset; scored by late submissions from a notebook (T4 x2,
   60-min limit; the submission cell `src/kaggle_ensemble_cell.py` currently uses only one T4).
-- Best ensemble V79 **0.90874** private; best single model **C-RADIOv4-SO400M LoRA, 0.90766** (E31, 2026-10-29;
+- Best ensemble **V79 + C-RADIO, 0.90911** private (E32, 2026-10-30; previous V79 0.90874); best single model **C-RADIOv4-SO400M LoRA, 0.90766** (E31, 2026-10-29;
   previous: soft ViT-B 0.90695, V95); 1st place 0.90883.
 - Biggest remaining loss is train->test shift and presence errors (false alarms ~10x more frequent on test than
   holdout). **Holdout cannot rank models for Kaggle** (r = -0.12); use it for mechanism checks and gates only.

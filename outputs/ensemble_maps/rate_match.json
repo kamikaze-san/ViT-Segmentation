@@ -1,0 +1,387 @@
+{
+ "check_V79_vs_E26": {
+  "rebuilt_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "e26_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "max_abs_diff_pp": 0.0
+ },
+ "V79_add_cradio": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "lora_r8",
+   "bce16",
+   "pseudo01",
+   "cradio"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   3.741,
+   0.581,
+   32.782,
+   6.375
+  ],
+  "matched_pix": [
+   0.63,
+   0.58,
+   0.64,
+   0.57
+  ],
+  "matched_rate_pct": [
+   3.869,
+   0.618,
+   32.91,
+   6.393
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.4,
+   0.109,
+   1.344,
+   0.073
+  ]
+ },
+ "V79_swap_pseudo01_for_cradio": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "lora_r8",
+   "bce16",
+   "cradio"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   3.723,
+   0.563,
+   32.655,
+   6.375
+  ],
+  "matched_pix": [
+   0.63,
+   0.55,
+   0.63,
+   0.53
+  ],
+  "matched_rate_pct": [
+   3.832,
+   0.636,
+   33.073,
+   6.411
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.472,
+   0.091,
+   1.362,
+   0.091
+  ]
+ },
+ "V79_swap_lora_r8_for_cradio": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "bce16",
+   "pseudo01",
+   "cradio"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   4.068,
+   0.745,
+   33.109,
+   6.448
+  ],
+  "matched_pix": [
+   0.7,
+   0.66,
+   0.65,
+   0.64
+  ],
+  "matched_rate_pct": [
+   3.778,
+   0.636,
+   33.109,
+   6.411
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.418,
+   0.091,
+   1.507,
+   0.127
+  ]
+ },
+ "V79_add_qwen": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "lora_r8",
+   "bce16",
+   "pseudo01",
+   "qwen"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   3.796,
+   0.708,
+   32.746,
+   6.375
+  ],
+  "matched_pix": [
+   0.65,
+   0.62,
+   0.64,
+   0.55
+  ],
+  "matched_rate_pct": [
+   3.796,
+   0.599,
+   33.037,
+   6.411
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.4,
+   0.018,
+   1.435,
+   0.054
+  ]
+ },
+ "V79_add_cradio_qwen": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "lora_r8",
+   "bce16",
+   "pseudo01",
+   "cradio",
+   "qwen"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   3.723,
+   0.636,
+   32.891,
+   6.393
+  ],
+  "matched_pix": [
+   0.63,
+   0.6,
+   0.64,
+   0.56
+  ],
+  "matched_rate_pct": [
+   3.832,
+   0.636,
+   32.982,
+   6.393
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.618,
+   0.127,
+   1.78,
+   0.073
+  ]
+ },
+ "V79_swap_lora_r8_add_cradio_qwen": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "bce16",
+   "pseudo01",
+   "cradio",
+   "qwen"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   4.014,
+   0.799,
+   33.019,
+   6.448
+  ],
+  "matched_pix": [
+   0.67,
+   0.68,
+   0.65,
+   0.62
+  ],
+  "matched_rate_pct": [
+   3.832,
+   0.636,
+   33.019,
+   6.393
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.654,
+   0.163,
+   1.998,
+   0.073
+  ]
+ },
+ "V79_swap_pseudo01_add_cradio_qwen": {
+  "members": [
+   "vitb",
+   "vits_r16",
+   "lora_r8",
+   "bce16",
+   "cradio",
+   "qwen"
+  ],
+  "reference": "V79 at its tuned rule",
+  "reference_pix": [
+   0.65,
+   0.6,
+   0.65,
+   0.58
+  ],
+  "min_area": [
+   630,
+   1470,
+   1050,
+   3150
+  ],
+  "reference_rate_pct": [
+   3.832,
+   0.618,
+   32.982,
+   6.393
+  ],
+  "rate_at_reference_pix_pct": [
+   3.705,
+   0.672,
+   32.692,
+   6.411
+  ],
+  "matched_pix": [
+   0.63,
+   0.61,
+   0.63,
+   0.52
+  ],
+  "matched_rate_pct": [
+   3.85,
+   0.618,
+   33.019,
+   6.411
+  ],
+  "pairs_deciding_differently_from_V79_pct": [
+   0.781,
+   0.145,
+   1.998,
+   0.091
+  ]
+ }
+}

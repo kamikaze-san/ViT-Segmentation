@@ -15,7 +15,8 @@ number below comes from there. Last updated 2026-10-28.
 
 | | Private | Public |
 |---|---|---|
-| Best ensemble, V79 | **0.90874** | 0.91567 |
+| Best ensemble, V79 + C-RADIO (E32, 6 members) | **0.90911** | 0.91813 |
+| Previous best ensemble, V79 | 0.90874 | 0.91567 |
 | Best single model, C-RADIOv4-SO400M LoRA (E31) | **0.90766** | 0.91947 |
 | Previous best single, soft-target ViT-B (V95) | 0.90695 | 0.91882 |
 | 1st place | 0.90883 | 0.92124 |
@@ -53,6 +54,7 @@ number below comes from there. Last updated 2026-10-28.
 | One pseudo-label member swapped in (E19) | +0.00118 (0.90874) |
 | Soft targets, no class weights (E25, E26) | +0.00107 ViT-S, +0.00089 ViT-B, single model |
 | Backbone DINOv3 ViT-B -> C-RADIOv4-SO400M, same recipe (E31) | +0.00071 single model (0.90766), both splits up |
+| C-RADIO added to V79 as a 6th member, rate-matched (E32) | +0.00037 private, +0.00246 public (0.90911 / 0.91813) |
 
 **Changed the fit: mostly did not transfer.**
 
@@ -213,6 +215,8 @@ number below comes from there. Last updated 2026-10-28.
   - **Kaggle preparation (2026-10-29), all passed:** the Mac-merged device code reproduces soft ViT-B's 0.6529 exactly; C-RADIO in fp16 (T4s have no bf16) scores 0.7165 vs bf16 0.7163 on holdout, no overflow; bundle `outputs/kaggle_bundle_cradio/` (878 MB); rate-matched solo thresholds on all 5,506 test images PIX [0.45, 0.38, 0.48, 0.18], min area [1050, 2450, 1750, 5250] (`cradio_rate_match.py`; the soft ViT-B solo at its own PIX reproduces the same rates); the v2 cell's 192 decisions on 48 local test images match the rate-match pass exactly; C-RADIO costs 3.5x the soft ViT-B per image, so ~25-30 min on two T4s. c4 caveat: its rate curve is nearly flat (0.45 -> 0.18 adds ~9 of 5,506 images while masks grow ~8%), worth about +-0.0003. Ready cell: `src/kaggle_cell_cradio_solo.py`.
   - **Kaggle result (2026-10-29): 0.90766 private / 0.91947 public, the new best single model**, +0.00071 / +0.00065 over the soft ViT-B solo (0.90695 / 0.91882), both splits up. 19.8 min on two T4s; predicted-positive rate 11.47%, as rate-matched, so the gain is in which pairs and pixels fire, not how many. The holdout gain (+0.015) shrank to +0.0007 on Kaggle, as backbone gains have before (ViT-S -> ViT-B: +0.020 frozen -> +0.0036). One seed; still 0.0011 below V79 (0.90874).
   - **Was next:** Kaggle solo submission of run 2 (epoch 10) against 0.90695, after four local checks: the merged device code reproduces soft ViT-B's 0.6529, C-RADIO in fp16 (T4s have no bf16) matches bf16, thresholds rate-matched on the test set, and the v2 cell's runtime fits Kaggle's 60 minutes (estimate ~40 min on two T4s). Then Qwen stage 2. An optional later test: whether avoiding the early dip (head warm-up, lower `--head-lr`, or LoRA at ~5.5e-5) ends higher; it needs full-length runs, since the 300-step proxy misled.
+
+- **E32, C-RADIO in the ensemble (2026-10-30).** `ensemble_maps.py` saved each member's 3-view test probabilities once (V79's five + C-RADIO, 50 min), so every candidate set was rate-matched to V79's firing rates from disk; V79 rebuilt from the maps reproduced E26's record exactly. **V79 + C-RADIO: 0.90911 private / 0.91813 public**, +0.00037 / +0.00246 over V79 and 0.00028 above 1st place's private 0.90883 (within noise; ~75 submissions judged on private carry selection luck). About 42 min on two T4s. It contradicts the E21-based prediction that a second student of the round-1 teacher would hurt: C-RADIO helped despite sharing the teacher's labels. Qwen (stage 2 holdout 0.6974, a tie with soft ViT-B) was also mapped: rate-matched alone, C-RADIO and Qwen are the most similar pair of all 21 (1.52% of test pairs differ; the three pseudo-label students are the most alike trio), and Qwen costs ~19 min on Kaggle, so V79 + C-RADIO + Qwen (~61 min) does not fit. Cells for the swaps and V79 + Qwen are ready, unsubmitted.
 
 **Not yet run:** ideas with their reasoning and cheapest tests are in `ideas_backlog.md`; open continued-pretraining hypotheses are in `continued_pretraining.md`.
 

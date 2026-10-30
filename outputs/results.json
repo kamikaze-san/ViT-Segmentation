@@ -1293,6 +1293,23 @@
    },
    "runtime": "1188 s (19.8 min) on 2 T4s; predicted-positive rate 11.47%, as rate-matched",
    "note": "NEW BEST SINGLE MODEL. Both splits up together. Holdout gain over soft ViT-B (+0.015) shrank to +0.0007 on Kaggle, as backbone gains have shrunk before."
+  },
+  "ensemble_6member_V79_add_cradio": {
+   "model": "V79's 5 members + C-RADIOv4-SO400M LoRA (E31 run 2), uniform average, v2 cell, T4 x2, fp16, 3-view TTA, bilinear",
+   "cell": "src/kaggle_cell_ens6_add_cradio.py",
+   "thresholds": "PIX [0.63, 0.58, 0.64, 0.57], min_area [630, 1470, 1050, 3150] (rate-matched to V79's test firing rates)",
+   "kaggle_private": 0.90911,
+   "kaggle_public": 0.91813,
+   "vs_V79": {
+    "private": 0.00037,
+    "public": 0.00246
+   },
+   "vs_first_place": {
+    "private": 0.00028,
+    "public": -0.00311
+   },
+   "runtime": "~42 min on 2 T4s",
+   "note": "NEW BEST PRIVATE, above 1st place's private 0.90883 by 0.00028 (within single-submission noise; ~75 submissions judged on private carry selection luck). Both splits up vs V79; public +0.0025 is the largest public gain since the warm head. Contradicts the E21-based prediction that a 2nd pseudo-label student would hurt: C-RADIO helped despite sharing the teacher's labels."
   }
  },
  "augmentation_verdict_REVERSED": {
@@ -4811,6 +4828,147 @@
      "positive_rate_pct": 11.47
     }
    }
+  },
+  "qwen_stage2_pc": {
+   "memory_check": {
+    "with_grad_checkpoint": "120 strips in 57 s (0.475 s/strip), peak 3.53 GiB, card max 3.8 GB",
+    "without": "card filled (7.9 GB) and spilled; not done after 480 s -> checkpointing stays on"
+   },
+   "launcher": "src/qwen_stage2.sh --grad-checkpoint (C-RADIO run 2's recipe, backbone swapped; head = Qwen stage-1 epoch-10, 0.6640)",
+   "status": "done 10-30 18:17 (~17.9 h): epoch 10 holdout 0.6974; checkpoint fullft_lr0.0001_g0.85_h1024_qwenvit_lora_warm_soft_pseudo01_ep10.pt",
+   "epochs": [
+    {
+     "ep": 0,
+     "mean": 0.664
+    },
+    {
+     "ep": 1,
+     "mean": 0.6258,
+     "per_class": [
+      0.5803,
+      0.4207,
+      0.767,
+      0.7352
+     ]
+    },
+    {
+     "ep": 2,
+     "mean": 0.5958,
+     "per_class": [
+      0.5534,
+      0.3222,
+      0.7622,
+      0.7452
+     ]
+    },
+    {
+     "ep": 3,
+     "mean": 0.6439,
+     "per_class": [
+      0.5405,
+      0.5275,
+      0.7539,
+      0.7537
+     ]
+    },
+    {
+     "ep": 4,
+     "mean": 0.6881,
+     "per_class": [
+      0.6256,
+      0.6285,
+      0.7709,
+      0.7272
+     ]
+    },
+    {
+     "ep": 5,
+     "mean": 0.6776,
+     "per_class": [
+      0.6578,
+      0.5443,
+      0.7554,
+      0.7527
+     ]
+    },
+    {
+     "ep": 6,
+     "mean": 0.6505,
+     "per_class": [
+      0.6116,
+      0.4735,
+      0.7712,
+      0.7457
+     ]
+    },
+    {
+     "ep": 7,
+     "mean": 0.674,
+     "per_class": [
+      0.6238,
+      0.5438,
+      0.7749,
+      0.7533
+     ]
+    },
+    {
+     "ep": 8,
+     "mean": 0.6803,
+     "per_class": [
+      0.6872,
+      0.5075,
+      0.776,
+      0.7503
+     ]
+    },
+    {
+     "ep": 9,
+     "mean": 0.6961,
+     "per_class": [
+      0.6802,
+      0.5718,
+      0.7792,
+      0.7531
+     ]
+    },
+    {
+     "ep": 10,
+     "mean": 0.6974,
+     "per_class": [
+      0.6737,
+      0.5813,
+      0.7837,
+      0.7508
+     ]
+    }
+   ],
+   "result": {
+    "ep10": {
+     "mean": 0.6974,
+     "per_class": [
+      0.6737,
+      0.5813,
+      0.7837,
+      0.7508
+     ]
+    },
+    "vs_soft_vitb_stage2_ep10": {
+     "vitb": 0.702,
+     "diff_mean": -0.0046,
+     "diff_per_class": [
+      0.0085,
+      -0.0007,
+      0.003,
+      -0.0292
+     ]
+    },
+    "vs_cradio_run2_ep10": {
+     "cradio": 0.7168,
+     "diff_mean": -0.0194
+    },
+    "epoch1_dip": "-0.038 (ViT-B -0.009, C-RADIO -0.126): grows with backbone size, consistent with the Mac's drift finding",
+    "reading": "ties soft ViT-B on holdout (within the 0.009 seed sigma), weaker on c4; its gate lead (+0.011) did not survive fine-tuning. Value, if any, is as a diverse ensemble member (E29: most independent of DINOv3 on c3), not as a solo."
+   }
   }
  },
  "E31b_radio_layout_and_lr_drift_mac_2026-10-28": {
@@ -5030,5 +5188,478 @@
   "two_seed_mean": 0.6882,
   "verdict": "PASS: the gain is real. Seed 1 is +0.033 over ViT-B, and the seed-to-seed gap is 0.005, inside the 0.009 sigma. Gains stay in c1 (+0.054) and c2 (+0.072); c3 +0.011; c4 -0.007.",
   "caveats": "Two seeds for C-RADIO, one for the ViT-B reference. Holdout cannot rank models for Kaggle."
+ },
+ "E32_cradio_ensemble_rate_match_2026-10-30": {
+  "question": "Does C-RADIO (best single, 0.90766) help V79 (0.90874) as a 6th member or as a swap?",
+  "method": "src/ensemble_maps.py: one GPU pass (49.8 min, RTX 4060) saved each member's 3-view TTA test probabilities at stride 4 (fp16, outputs/ensemble_maps/<member>.npy, 1.1 GB each), so any combination is scored from disk; each candidate set rate-matched to V79's test firing rates at its tuned rule (PIX [.65,.60,.65,.58], min area [630,1470,1050,3150]), as E26's swap",
+  "check": "V79 rebuilt from the saved maps reproduces E26's recorded V79 rates exactly (max diff 0.000 pp); the 6-member cell's 192 decisions on 48 local test images match the rate-match pass 192/192",
+  "candidates": {
+   "V79_add_cradio": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "lora_r8",
+     "bce16",
+     "pseudo01",
+     "cradio"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     3.741,
+     0.581,
+     32.782,
+     6.375
+    ],
+    "matched_pix": [
+     0.63,
+     0.58,
+     0.64,
+     0.57
+    ],
+    "matched_rate_pct": [
+     3.869,
+     0.618,
+     32.91,
+     6.393
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.4,
+     0.109,
+     1.344,
+     0.073
+    ]
+   },
+   "V79_swap_pseudo01_for_cradio": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "lora_r8",
+     "bce16",
+     "cradio"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     3.723,
+     0.563,
+     32.655,
+     6.375
+    ],
+    "matched_pix": [
+     0.63,
+     0.55,
+     0.63,
+     0.53
+    ],
+    "matched_rate_pct": [
+     3.832,
+     0.636,
+     33.073,
+     6.411
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.472,
+     0.091,
+     1.362,
+     0.091
+    ]
+   },
+   "V79_swap_lora_r8_for_cradio": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "bce16",
+     "pseudo01",
+     "cradio"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     4.068,
+     0.745,
+     33.109,
+     6.448
+    ],
+    "matched_pix": [
+     0.7,
+     0.66,
+     0.65,
+     0.64
+    ],
+    "matched_rate_pct": [
+     3.778,
+     0.636,
+     33.109,
+     6.411
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.418,
+     0.091,
+     1.507,
+     0.127
+    ]
+   },
+   "V79_add_qwen": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "lora_r8",
+     "bce16",
+     "pseudo01",
+     "qwen"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     3.796,
+     0.708,
+     32.746,
+     6.375
+    ],
+    "matched_pix": [
+     0.65,
+     0.62,
+     0.64,
+     0.55
+    ],
+    "matched_rate_pct": [
+     3.796,
+     0.599,
+     33.037,
+     6.411
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.4,
+     0.018,
+     1.435,
+     0.054
+    ]
+   },
+   "V79_add_cradio_qwen": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "lora_r8",
+     "bce16",
+     "pseudo01",
+     "cradio",
+     "qwen"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     3.723,
+     0.636,
+     32.891,
+     6.393
+    ],
+    "matched_pix": [
+     0.63,
+     0.6,
+     0.64,
+     0.56
+    ],
+    "matched_rate_pct": [
+     3.832,
+     0.636,
+     32.982,
+     6.393
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.618,
+     0.127,
+     1.78,
+     0.073
+    ]
+   },
+   "V79_swap_lora_r8_add_cradio_qwen": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "bce16",
+     "pseudo01",
+     "cradio",
+     "qwen"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     4.014,
+     0.799,
+     33.019,
+     6.448
+    ],
+    "matched_pix": [
+     0.67,
+     0.68,
+     0.65,
+     0.62
+    ],
+    "matched_rate_pct": [
+     3.832,
+     0.636,
+     33.019,
+     6.393
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.654,
+     0.163,
+     1.998,
+     0.073
+    ]
+   },
+   "V79_swap_pseudo01_add_cradio_qwen": {
+    "members": [
+     "vitb",
+     "vits_r16",
+     "lora_r8",
+     "bce16",
+     "cradio",
+     "qwen"
+    ],
+    "reference": "V79 at its tuned rule",
+    "reference_pix": [
+     0.65,
+     0.6,
+     0.65,
+     0.58
+    ],
+    "min_area": [
+     630,
+     1470,
+     1050,
+     3150
+    ],
+    "reference_rate_pct": [
+     3.832,
+     0.618,
+     32.982,
+     6.393
+    ],
+    "rate_at_reference_pix_pct": [
+     3.705,
+     0.672,
+     32.692,
+     6.411
+    ],
+    "matched_pix": [
+     0.63,
+     0.61,
+     0.63,
+     0.52
+    ],
+    "matched_rate_pct": [
+     3.85,
+     0.618,
+     33.019,
+     6.411
+    ],
+    "pairs_deciding_differently_from_V79_pct": [
+     0.781,
+     0.145,
+     1.998,
+     0.091
+    ]
+   }
+  },
+  "cells": {
+   "V79_add_cradio": "src/kaggle_cell_ens6_add_cradio.py (~40 min on 2 T4s)",
+   "V79_swap_pseudo01_for_cradio": "src/kaggle_cell_ens5_swap_pseudo01.py (~33 min)",
+   "V79_swap_lora_r8_for_cradio": "src/kaggle_cell_ens5_swap_lora_r8.py (~35 min)"
+  },
+  "kaggle_time_basis": "local 6-member pass 0.543 s/img x the C-RADIO solo's Kaggle/local factor 0.77",
+  "status": "V79 + C-RADIO submitted: 0.90911 private / 0.91813 public, new best. Swap cells and V79+Qwen not submitted.",
+  "qwen": {
+   "bundle": "outputs/kaggle_bundle_qwen/ (model_qwenvit_soft_pseudo01.pt 829 MB + config_wevisone-vl-2b.json)",
+   "precision_check": "holdout bf16 0.6971 = fp16 0.6971 (training 0.6974), no overflow",
+   "test_pass": "24.2 min alone on the RTX 4060 (~0.26 s/img, close to C-RADIO's cost, not ViT-B's) -> ~19 min on 2 T4s",
+   "cell_check": "kaggle_cell_ens6_add_qwen.py (V79 + Qwen) on 48 local test images: 192/192 decisions match the rate-match pass",
+   "kaggle_time": {
+    "V79_add_qwen": "~41 min",
+    "V79_add_cradio_qwen (7)": "~61 min, does not fit",
+    "6-member sets with both C-RADIO and Qwen": "~55-57 min, too tight"
+   }
+  },
+  "diversity": {
+   "method": "ensemble_maps.py diversity: each member alone rate-matched to V79's test firing rates; % of (image, class) test pairs deciding differently",
+   "member_vs_V79_pct": {
+    "vitb": [
+     2.016,
+     0.799,
+     6.012,
+     0.254
+    ],
+    "vits_r16": [
+     1.344,
+     0.236,
+     4.94,
+     0.182
+    ],
+    "lora_r8": [
+     2.07,
+     0.381,
+     6.193,
+     0.254
+    ],
+    "bce16": [
+     1.181,
+     0.345,
+     4.613,
+     0.182
+    ],
+    "pseudo01": [
+     1.09,
+     0.218,
+     4.268,
+     0.073
+    ],
+    "cradio": [
+     1.453,
+     0.4,
+     5.049,
+     0.182
+    ],
+    "qwen": [
+     1.453,
+     0.363,
+     4.849,
+     0.145
+    ]
+   },
+   "pairwise_pct": {
+    "vitb~vits_r16": 3.446,
+    "vitb~lora_r8": 3.787,
+    "vitb~bce16": 2.915,
+    "vitb~pseudo01": 2.974,
+    "vitb~cradio": 3.042,
+    "vitb~qwen": 2.983,
+    "vits_r16~lora_r8": 2.52,
+    "vits_r16~bce16": 2.511,
+    "vits_r16~pseudo01": 2.388,
+    "vits_r16~cradio": 2.429,
+    "vits_r16~qwen": 2.488,
+    "lora_r8~bce16": 3.178,
+    "lora_r8~pseudo01": 2.465,
+    "lora_r8~cradio": 2.633,
+    "lora_r8~qwen": 2.72,
+    "bce16~pseudo01": 2.511,
+    "bce16~cradio": 2.379,
+    "bce16~qwen": 2.329,
+    "pseudo01~cradio": 1.83,
+    "pseudo01~qwen": 1.807,
+    "cradio~qwen": 1.521
+   },
+   "reading": "C-RADIO and Qwen are the MOST similar pair of all 21 (1.52% of pairs differ), and the three round-1 pseudo-label students (pseudo01, C-RADIO, Qwen) are the most mutually similar trio (1.52-1.83%) vs 2.3-3.8% for the other pairs. Shared recipe and shared pseudo-label teacher dominate over backbone family (as E21: students of one teacher converge). E29's frozen-probe independence of Qwen did not survive fine-tuning on the same labels. So Qwen adds little beside C-RADIO, and alone it is the weaker of the two (holdout 0.697 vs 0.717)."
+  },
+  "kaggle_result": {
+   "V79_add_cradio": {
+    "private": 0.90911,
+    "public": 0.91813,
+    "vs_V79": "+0.00037 / +0.00246"
+   }
+  }
  }
 }

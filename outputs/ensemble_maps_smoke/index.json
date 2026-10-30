@@ -1,0 +1,15 @@
+{
+ "files": [
+  "0000f269f.jpg",
+  "000ccc2ac.jpg",
+  "002451917.jpg",
+  "003c5da97.jpg",
+  "0042e163f.jpg",
+  "004f40c73.jpg",
+  "00513039a.jpg",
+  "006f39c41.jpg"
+ ],
+ "members": {
+  "qwen": "kaggle_bundle_qwen/model_qwenvit_soft_pseudo01.pt"
+ }
+}
